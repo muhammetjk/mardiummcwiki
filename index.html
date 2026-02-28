@@ -1,947 +1,2142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>⚡ MARDİUMMC WIKI | Minecraft</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            color: white;
-        }
+      body {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        min-height: 100vh;
+        color: white;
+      }
 
-        /* Navbar */
+      /* Navbar */
+      .navbar {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid #4a9eff;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        gap: 20px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .logo img {
+        height: 50px;
+        width: auto;
+        border-radius: 10px;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+
+      .logo img:hover {
+        transform: scale(1.1);
+      }
+
+      .search-box {
+        flex: 1;
+        max-width: 700px;
+        position: relative;
+        margin-left: auto;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 12px 20px;
+        border-radius: 30px;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 1rem;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(74, 158, 255, 0.3);
+        transition: all 0.3s;
+      }
+
+      .search-box input:focus {
+        outline: none;
+        border-color: #4a9eff;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
+      }
+
+      .search-box i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #4a9eff;
+      }
+
+      /* Ana Kapsayıcı */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Kategori Seçici */
+      .category-selector {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 30px 0;
+        text-align: center;
+        border: 1px solid rgba(74, 158, 255, 0.2);
+      }
+
+      .category-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, #4a9eff, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .category-cards {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 30px 0;
+      }
+
+      .category-card {
+        background: linear-gradient(
+          145deg,
+          rgba(74, 158, 255, 0.1),
+          rgba(168, 85, 247, 0.1)
+        );
+        border-radius: 15px;
+        padding: 30px 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .category-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .category-card:hover::before {
+        left: 100%;
+      }
+
+      .category-card:hover {
+        transform: translateY(-10px);
+        border-color: #4a9eff;
+        box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+      }
+
+      .category-card.active {
+        border-color: #4a9eff;
+        background: linear-gradient(
+          145deg,
+          rgba(74, 158, 255, 0.2),
+          rgba(168, 85, 247, 0.2)
+        );
+      }
+
+      .category-card i {
+        font-size: 4rem;
+        margin-bottom: 15px;
+        color: #4a9eff;
+      }
+
+      .category-card h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .category-card p {
+        color: #ccc;
+      }
+
+      .badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #4a9eff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+      }
+
+      /* İçerik Alanı */
+      .content-area {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px 0;
+        border: 1px solid rgba(74, 158, 255, 0.2);
+        min-height: 400px;
+      }
+
+      .content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .content-header h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #fff, #4a9eff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Wiki Grid */
+      .wiki-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .wiki-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.3s;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+
+      .wiki-card:hover {
+        border-color: #4a9eff;
+        transform: translateY(-5px);
+        background: rgba(74, 158, 255, 0.1);
+      }
+
+      .wiki-card i {
+        font-size: 2rem;
+        color: #4a9eff;
+        margin-bottom: 10px;
+      }
+
+      .wiki-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+      }
+
+      .wiki-card p {
+        color: #aaa;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .card-tags {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        background: rgba(74, 158, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(74, 158, 255, 0.3);
+      }
+
+      /* Wiki Sayfası (Modal) */
+      .wiki-page-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        overflow-y: auto;
+        padding: 50px;
+      }
+
+      .wiki-page-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        border-radius: 30px;
+        padding: 40px;
+        border: 2px solid #4a9eff;
+        position: relative;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        border: 1px solid #4a9eff;
+      }
+
+      .close-modal:hover {
+        background: #4a9eff;
+        transform: rotate(90deg);
+      }
+
+      .wiki-page-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+      }
+
+      .wiki-page-header h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #4a9eff, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .wiki-page-header p {
+        font-size: 1.2rem;
+        color: #ccc;
+      }
+
+      .wiki-page-image {
+        margin: 30px 0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(74, 158, 255, 0.3);
+      }
+
+      .wiki-page-image img {
+        max-width: 100%;
+        max-height: 500px;
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(74, 158, 255, 0.3);
+      }
+
+      .wiki-page-body {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #ddd;
+        margin: 30px 0;
+      }
+
+      .wiki-page-body h2 {
+        color: #4a9eff;
+        margin: 20px 0 10px;
+        font-size: 1.8rem;
+      }
+
+      .wiki-page-body ul,
+      .wiki-page-body ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .wiki-page-body li {
+        margin: 5px 0;
+      }
+
+      .wiki-page-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(74, 158, 255, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .wiki-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .wiki-stats {
+        color: #4a9eff;
+        font-size: 0.9rem;
+      }
+
+      .wiki-stats i {
+        margin-right: 5px;
+      }
+
+      /* Arama Sonuçları */
+      .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        margin-top: 5px;
+        max-height: 400px;
+        overflow-y: auto;
+        display: none;
+        z-index: 1000;
+        border: 1px solid #4a9eff;
+      }
+
+      .search-item {
+        padding: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .search-item:hover {
+        background: rgba(74, 158, 255, 0.2);
+      }
+
+      .search-item i {
+        margin-right: 10px;
+        color: #4a9eff;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
         .navbar {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid #4a9eff;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            gap: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .logo img {
-            height: 50px;
-            width: auto;
-            border-radius: 10px;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-
-        .logo img:hover {
-            transform: scale(1.1);
+          flex-direction: column;
+          gap: 15px;
+          padding: 1rem;
         }
 
         .search-box {
-            flex: 1;
-            max-width: 700px;
-            position: relative;
-            margin-left: auto;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1rem;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(74, 158, 255, 0.3);
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: #4a9eff;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
-        }
-
-        .search-box i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #4a9eff;
-        }
-
-        /* Ana Kapsayıcı */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Kategori Seçici */
-        .category-selector {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 30px 0;
-            text-align: center;
-            border: 1px solid rgba(74, 158, 255, 0.2);
-        }
-
-        .category-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #4a9eff, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .category-cards {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 30px 0;
+          width: 100%;
+          max-width: none;
+          margin-left: 0;
         }
 
         .category-card {
-            background: linear-gradient(145deg, rgba(74, 158, 255, 0.1), rgba(168, 85, 247, 0.1));
-            border-radius: 15px;
-            padding: 30px 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
+          padding: 20px 30px;
         }
 
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .category-card:hover::before {
-            left: 100%;
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px);
-            border-color: #4a9eff;
-            box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
-        }
-
-        .category-card.active {
-            border-color: #4a9eff;
-            background: linear-gradient(145deg, rgba(74, 158, 255, 0.2), rgba(168, 85, 247, 0.2));
-        }
-
-        .category-card i {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            color: #4a9eff;
-        }
-
-        .category-card h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .category-card p {
-            color: #ccc;
-        }
-
-        .badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #4a9eff;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        /* İçerik Alanı */
-        .content-area {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px 0;
-            border: 1px solid rgba(74, 158, 255, 0.2);
-            min-height: 400px;
-        }
-
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .content-header h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(45deg, #fff, #4a9eff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Wiki Grid */
-        .wiki-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .wiki-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-            cursor: pointer;
-        }
-
-        .wiki-card:hover {
-            border-color: #4a9eff;
-            transform: translateY(-5px);
-            background: rgba(74, 158, 255, 0.1);
-        }
-
-        .wiki-card i {
-            font-size: 2rem;
-            color: #4a9eff;
-            margin-bottom: 10px;
-        }
-
-        .wiki-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .wiki-card p {
-            color: #aaa;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .card-tags {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: rgba(74, 158, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(74, 158, 255, 0.3);
-        }
-
-        /* Wiki Sayfası (Modal) */
         .wiki-page-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            overflow-y: auto;
-            padding: 50px;
+          padding: 20px;
         }
 
         .wiki-page-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 30px;
-            padding: 40px;
-            border: 2px solid #4a9eff;
-            position: relative;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-            border: 1px solid #4a9eff;
-        }
-
-        .close-modal:hover {
-            background: #4a9eff;
-            transform: rotate(90deg);
-        }
-
-        .wiki-page-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+          padding: 20px;
         }
 
         .wiki-page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #4a9eff, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+          font-size: 2rem;
         }
+      }
 
-        .wiki-page-header p {
-            font-size: 1.2rem;
-            color: #ccc;
+      /* Animasyonlar */
+      @keyframes glow {
+        0% {
+          box-shadow: 0 0 5px #4a9eff;
         }
-
-        .wiki-page-image {
-            margin: 30px 0;
-            text-align: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(74, 158, 255, 0.3);
+        50% {
+          box-shadow: 0 0 20px #4a9eff;
         }
-
-        .wiki-page-image img {
-            max-width: 100%;
-            max-height: 500px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(74, 158, 255, 0.3);
+        100% {
+          box-shadow: 0 0 5px #4a9eff;
         }
+      }
 
-        .wiki-page-body {
-            line-height: 1.8;
-            font-size: 1.1rem;
-            color: #ddd;
-            margin: 30px 0;
-        }
-
-        .wiki-page-body h2 {
-            color: #4a9eff;
-            margin: 20px 0 10px;
-            font-size: 1.8rem;
-        }
-
-        .wiki-page-body ul, .wiki-page-body ol {
-            margin-left: 20px;
-            margin-bottom: 20px;
-        }
-
-        .wiki-page-body li {
-            margin: 5px 0;
-        }
-
-        .wiki-page-footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(74, 158, 255, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .wiki-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .wiki-stats {
-            color: #4a9eff;
-            font-size: 0.9rem;
-        }
-
-        .wiki-stats i {
-            margin-right: 5px;
-        }
-
-        /* Arama Sonuçları */
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            margin-top: 5px;
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-            border: 1px solid #4a9eff;
-        }
-
-        .search-item {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .search-item:hover {
-            background: rgba(74, 158, 255, 0.2);
-        }
-
-        .search-item i {
-            margin-right: 10px;
-            color: #4a9eff;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-                padding: 1rem;
-            }
-
-            .search-box {
-                width: 100%;
-                max-width: none;
-                margin-left: 0;
-            }
-
-            .category-card {
-                padding: 20px 30px;
-            }
-
-            .wiki-page-modal {
-                padding: 20px;
-            }
-
-            .wiki-page-content {
-                padding: 20px;
-            }
-
-            .wiki-page-header h1 {
-                font-size: 2rem;
-            }
-        }
-
-        /* Animasyonlar */
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px #4a9eff; }
-            50% { box-shadow: 0 0 20px #4a9eff; }
-            100% { box-shadow: 0 0 5px #4a9eff; }
-        }
-
-        .glow { animation: glow 2s infinite; }
+      .glow {
+        animation: glow 2s infinite;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">
-            <img src="sunucum-logo.png" alt="Sunucum Logo"
-                 onerror="this.src='https://via.placeholder.com/50x50/4a9eff/ffffff?text=S'">
-            
-        </div>
+      <div class="logo">
+        <img
+          src="sunucum-logo.png"
+          alt="Sunucum Logo"
+          onerror="
+            this.src = 'https://via.placeholder.com/50x50/4a9eff/ffffff?text=S'
+          "
+        />
+      </div>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Wiki'de ara... (Örn: Skyblock, SMP, Boss)">
-            <i class="fas fa-search"></i>
-            <div class="search-results" id="searchResults"></div>
-        </div>
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Wiki'de ara... (Örn: Skyblock, SMP, Boss)"
+        />
+        <i class="fas fa-search"></i>
+        <div class="search-results" id="searchResults"></div>
+      </div>
     </nav>
 
     <div class="container">
-        <!-- Kategori Seçici -->
-        <div class="category-selector">
-            <h1 class="category-title">🌟 Hangi Wiki'yi Görmek İstersin?</h1>
-            <div class="category-cards">
-                <div class="category-card active" onclick="selectCategory('skyblock')" id="catSkyblock">
-                    <div class="badge">POPÜLER</div>
-                    <i class="fas fa-cloud"></i>
-                    <h2>SKYBLOCK</h2>
-                    <p>Gökyüzünde hayatta kal</p>
-                </div>
-                <div class="category-card" onclick="selectCategory('smp')" id="catSmp">
-                    <i class="fas fa-tree"></i>
-                    <h2>SMP</h2>
-                    <p>Hayatta kalma dünyası</p>
-                </div>
-            </div>
+      <!-- Kategori Seçici -->
+      <div class="category-selector">
+        <h1 class="category-title">🌟 Hangi Wiki'yi Görmek İstersin?</h1>
+        <div class="category-cards">
+          <div
+            class="category-card active"
+            onclick="selectCategory('skyblock')"
+            id="catSkyblock"
+          >
+            <div class="badge">POPÜLER</div>
+            <i class="fas fa-cloud"></i>
+            <h2>SKYBLOCK</h2>
+            <p>Gökyüzünde hayatta kal</p>
+          </div>
+          <div
+            class="category-card"
+            onclick="selectCategory('smp')"
+            id="catSmp"
+          >
+            <i class="fas fa-tree"></i>
+            <h2>SMP</h2>
+            <p>Hayatta kalma dünyası</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ana İçerik -->
+      <div class="content-area">
+        <div class="content-header">
+          <h1 id="currentCategoryTitle">⛅ SKYBLOCK Wiki</h1>
         </div>
 
-        <!-- Ana İçerik -->
-        <div class="content-area">
-            <div class="content-header">
-                <h1 id="currentCategoryTitle">⛅ SKYBLOCK Wiki</h1>
-            </div>
-
-            <!-- Wiki Kartları -->
-            <div class="wiki-grid" id="wikiGrid"></div>
-        </div>
+        <!-- Wiki Kartları -->
+        <div class="wiki-grid" id="wikiGrid"></div>
+      </div>
     </div>
 
     <!-- Wiki Sayfası Modal -->
     <div class="wiki-page-modal" id="wikiPageModal">
-        <div class="wiki-page-content">
-            <button class="close-modal" onclick="closeWikiPage()"><i class="fas fa-times"></i></button>
+      <div class="wiki-page-content">
+        <button class="close-modal" onclick="closeWikiPage()">
+          <i class="fas fa-times"></i>
+        </button>
 
-            <div class="wiki-page-header">
-                <h1 id="modalTitle">Başlık</h1>
-                <p id="modalDesc">Açıklama</p>
-            </div>
-
-            <div class="wiki-page-image" id="modalImage">
-                <img src="images/default-wiki.jpg" alt="Wiki Görseli"
-                     onerror="this.src='https://via.placeholder.com/800x400/4a9eff/ffffff?text=Gorsel+Bulunamadi'">
-            </div>
-
-            <div class="wiki-page-body" id="modalBody"></div>
-
-            <div class="wiki-page-footer">
-                <div class="wiki-tags" id="modalTags"></div>
-                <div class="wiki-stats">
-                    <i class="fas fa-eye"></i> 1.2k görüntülenme
-                    <i class="fas fa-thumbs-up" style="margin-left: 15px;"></i> 45 beğeni
-                </div>
-            </div>
+        <div class="wiki-page-header">
+          <h1 id="modalTitle">Başlık</h1>
+          <p id="modalDesc">Açıklama</p>
         </div>
+
+        <div class="wiki-page-image" id="modalImage">
+          <img
+            src="images/default-wiki.jpg"
+            alt="Wiki Görseli"
+            onerror="
+              this.src =
+                'https://via.placeholder.com/800x400/4a9eff/ffffff?text=Gorsel+Bulunamadi'
+            "
+          />
+        </div>
+
+        <div class="wiki-page-body" id="modalBody"></div>
+
+        <div class="wiki-page-footer">
+          <div class="wiki-tags" id="modalTags"></div>
+          <div class="wiki-stats">
+            <i class="fas fa-eye"></i> 1.2k görüntülenme
+            <i class="fas fa-thumbs-up" style="margin-left: 15px"></i> 45 beğeni
+          </div>
+        </div>
+      </div>
     </div>
-
     <script>
-        // Wiki Veritabanı
-        let wikiData = {
-            skyblock: [
-                {
-                    id: 1,
-                    title: "🏝️ SkyBlock Adanız ile İlgili Her Şey",
-                    desc: "🏝 SkyBlock Sistemi Nedir?",
-                    icon: "fa-rocket",
-                    tags: ["başlangıç", "ada", "rehber"],
-                    image: "skyblock-ada.jpg",
-                    content: {
-                        giris: "Skyblock'da yeni bir ada kurmak heyecan verici bir maceranın başlangıcıdır. Bu rehberde adım adım ada kurulumunu öğreneceksiniz.",
-                        adimlar: [
-                            {
-                                baslik: "🏝 SkyBlock Sistemi Nedir?",
-                                aciklama: "SkyBlock sunucumuzun temel taşı adalardır. Oyunun ekonomisi, gelişimi ve rekabet sistemi tamamen adalar üzerine kuruludur.Oyuna ilk giriş yaptığınızda spawn bölgesinde doğarsınız ve sistem sizi otomatik olarak kendi SkyBlock adanıza ışınlar. Burada sizi sunucumuzun Alman-Amerikan karışımı karakteri Jerry Dayı karşılar",
-                                maddeler: [
-                                ]
-                            },
-                            {
-                                baslik: "🎯 Jerry Dayı’nın Görevleri:",
-                                aciklama: "Oyunun temel mantığını öğretir",
-                                maddeler: [
-                                    "Başlangıç görevlerini verir",
-                                    "Sistemleri tanıtır",
-                                    "Gelişim yolunuzu gösterir (Başlangıç görevlerini tamamlamak, hızlı ve sağlam bir başlangıç yapmanızı sağlar)"
-                                ]
-                            }
-                        ],
-                        ipuclari: [
-                            "Adanızı genişletmek için platformlar inşa edin",
-                            "Otomatik çiftlikler kurarak kaynak üretimini hızlandırın",
-                            "Komşu adalarla ticaret yapmayı unutmayın"
-                        ]
-                    }
-                },
-                {
-                    id: 2,
-                    title: "⚒️ Otomatik Çiftlik",
-                    desc: "Efficient otomatik kaynak çiftlikleri yapımı",
-                    icon: "fa-tractor",
-                    tags: ["çiftlik", "otomatik", "kaynak"],
-                    image: "images/skyblock-farm.jpg",
-                    content: {
-                        giris: "Otomatik çiftlikler Skyblock'da hayatta kalmanın ve ilerlemenin anahtarıdır. Bu rehberde en verimli çiftlikleri nasıl kuracağınızı öğreneceksiniz.",
-                        adimlar: [
-                            {
-                                baslik: "Kaynak Çiftliği",
-                                aciklama: "Temel kaynaklar için otomatik çiftlik kurulumu:",
-                                maddeler: [
-                                    "Kobblestone üreteci yapımı",
-                                    "Otomatik ağaç çiftliği",
-                                    "Su ve lav düzenekleri"
-                                ]
-                            },
-                            {
-                                baslik: "Gelişmiş Çiftlikler",
-                                aciklama: "İleri seviye otomatik sistemler:",
-                                maddeler: [
-                                    "Otomatik balık çiftliği",
-                                    "Mob farm kurulumu",
-                                    "Ekin otomasyonu"
-                                ]
-                            }
-                        ]
-                    }
-                },
-                {
-                    id: 3,
-                    title: "🐉 Ejderha Savaşı",
-                    desc: "Ender Dragon'u yenme taktikleri ve ekipmanları",
-                    icon: "fa-dragon",
-                    tags: ["boss", "ender", "savaş"],
-                    image: "images/skyblock-dragon.jpg",
-                    content: {
-                        giris: "Ender Dragon, Skyblock'ın en zorlu boss'udur. Bu rehberde onu yenmek için gereken stratejileri öğreneceksiniz.",
-                        adimlar: [
-                            {
-                                baslik: "Hazırlık",
-                                aciklama: "Savaş öncesi yapılması gerekenler:",
-                                maddeler: [
-                                    "En iyi ekipmanlar",
-                                    "İksirler ve yiyecekler",
-                                    "Blok ve malzeme hazırlığı"
-                                ]
-                            },
-                            {
-                                baslik: "Savaş Stratejisi",
-                                aciklama: "Ejderhayı yenme taktikleri:",
-                                maddeler: [
-                                    "Kristalleri yok etme sırası",
-                                    "Hasar verme taktikleri",
-                                    "Kaçınma manevraları"
-                                ]
-                            }
-                        ]
-                    }
-                },
-                {
-                    id: 4,
-                    title: "💰 Ticaret Rehberi",
-                    desc: "Adalar arası ticaret ve en iyi fiyatlar",
-                    icon: "fa-coins",
-                    tags: ["ticaret", "para", "ekonomi"],
-                    image: "images/skyblock-trade.jpg",
-                    content: {
-                        giris: "Skyblock ekonomisinde başarılı olmanın yolları ve ticaret stratejileri.",
-                        adimlar: [
-                            {
-                                baslik: "Temel Ticaret",
-                                aciklama: "Başlangıç seviyesi ticaret:",
-                                maddeler: [
-                                    "Değerli kaynaklar",
-                                    "Pazar fiyatları",
-                                    "Kar marjı hesaplama"
-                                ]
-                            },
-                            {
-                                baslik: "İleri Ticaret",
-                                aciklama: "Profesyonel ticaret taktikleri:",
-                                maddeler: [
-                                    "Arz-talep dengesi",
-                                    "Uzun vadeli yatırımlar",
-                                    "Ticaret ağları kurma"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ],
-            smp: [
-                {
-                    id: 5,
-                    title: "🌍 İlk Gün Rehberi",
-                    desc: "SMP'de ilk gün yapılması gerekenler",
-                    icon: "fa-sun",
-                    tags: ["başlangıç", "hayatta kalma"],
-                    image: "images/smp-firstday.jpg",
-                    content: {
-                        giris: "SMP'de ilk gün hayatta kalmanın püf noktaları.",
-                        adimlar: [
-                            {
-                                baslik: "Hızlı Başlangıç",
-                                aciklama: "İlk dakikalarda yapılacaklar:",
-                                maddeler: [
-                                    "Ağaç kesme ve tahta",
-                                    "Barınak yapımı",
-                                    "İlk aletler"
-                                ]
-                            },
-                            {
-                                baslik: "Gece Hazırlığı",
-                                aciklama: "Güvenli bir gece geçirmek için:",
-                                maddeler: [
-                                    "Yatak yapımı",
-                                    "Mob önlemleri",
-                                    "Işıklandırma"
-                                ]
-                            }
-                        ]
-                    }
-                },
-                {
-                    id: 6,
-                    title: "🏰 Dev Üs Yapımı",
-                    desc: "Profesyonel üs tasarımları ve savunma",
-                    icon: "fa-castle",
-                    tags: ["bina", "üs", "tasarım"],
-                    image: "images/smp-base.jpg",
-                    content: {
-                        giris: "Etkileyici ve güvenli bir üs inşa etmenin incelikleri.",
-                        adimlar: [
-                            {
-                                baslik: "Tasarım",
-                                aciklama: "Üs tasarımı için ipuçları:",
-                                maddeler: [
-                                    "Modern mimari",
-                                    "Ortaçağ tarzı",
-                                    "Yeraltı üsleri"
-                                ]
-                            },
-                            {
-                                baslik: "Güvenlik",
-                                aciklama: "Üs savunma sistemleri:",
-                                maddeler: [
-                                    "Lav tuzakları",
-                                    "Redstone savunmalar",
-                                    "Gizli girişler"
-                                ]
-                            }
-                        ]
-                    }
-                },
-                {
-                    id: 7,
-                    title: "⚔️ PvP Taktikleri",
-                    desc: "Oyunculara karşı savaşma teknikleri",
-                    icon: "fa-shield-halved",
-                    tags: ["pvp", "savaş", "kombat"],
-                    image: "images/smp-pvp.jpg",
-                    content: {
-                        giris: "PvP'de başarılı olmanın sırları ve taktikleri.",
-                        adimlar: [
-                            {
-                                baslik: "Temel PvP",
-                                aciklama: "Başlangıç seviyesi PvP:",
-                                maddeler: [
-                                    "Hit timing",
-                                    "Strafe teknikleri",
-                                    "Kritik vuruşlar"
-                                ]
-                            },
-                            {
-                                baslik: "İleri Teknikler",
-                                aciklama: "Profesyonel PvP taktikleri:",
-                                maddeler: [
-                                    "Rod kullanımı",
-                                    "MLG su kovası",
-                                    "Pot PvP"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        };
 
-        let currentCategory = 'skyblock';
-        let currentPageId = null;
+              // Wiki Veritabanı
 
-        window.onload = function() {
-            updateWikiGrid();
-        };
+      // Wiki Veritabanı
+      let wikiData = {
+          skyblock: [
+              {
+                  id: 1,
+                  title: "🏝️ SkyBlock Adanız ile İlgili Başlangıç",
+                  desc: "🏝 SkyBlock Sistemi Nedir?",
+                  icon: "fa-rocket",
+                  tags: ["başlangıç", "ada", "rehber"],
+                  image: "skyblock-ada.jpg",
+                  content: {
+                      giris: "Skyblock'da yeni bir ada kurmak heyecan verici bir maceranın başlangıcıdır. Bu rehberde adım adım ada kurulumunu öğreneceksiniz.",
+                      adimlar: [
+                          {
+                              baslik: "🏝 SkyBlock Sistemi Nedir?",
+                              aciklama: "SkyBlock sunucumuzun temel taşı adalardır. Oyunun ekonomisi, gelişimi ve rekabet sistemi tamamen adalar üzerine kuruludur.Oyuna ilk giriş yaptığınızda spawn bölgesinde doğarsınız ve sistem sizi otomatik olarak kendi SkyBlock adanıza ışınlar. Burada sizi sunucumuzun Alman-Amerikan karışımı karakteri Jerry Dayı karşılar",
+                              maddeler: []
+                          },
+                          {
+                              baslik: "🎯 Jerry Dayı’nın Görevleri:",
+                              aciklama: "Oyunun temel mantığını öğretir",
+                              maddeler: [
+                                  "Başlangıç görevlerini verir",
+                                  "Sistemleri tanıtır",
+                                  "Gelişim yolunuzu gösterir (Başlangıç görevlerini tamamlamak, hızlı ve sağlam bir başlangıç yapmanızı sağlar)"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Adanızı genişletmek için platformlar inşa edin",
+                          "Otomatik çiftlikler kurarak kaynak üretimini hızlandırın",
+                          "Komşu adalarla ticaret yapmayı unutmayın"
+                      ]
+                  }
+              },
+              {
+                  id: 2,
+                  title: "🏝️ SkyBlock Adanız ile İlgili Komutlar",
+                  desc: "⚙️ Ada Komutları ve Yönetim",
+                  icon: "fa-gear",
+                  tags: ["is", "komutlar", "isayarlar"],
+                  image: "skyblock-ada2.jpg",
+                  content: {
+                      giris: "⚙️ Ada Komutları ve Yönetim",
+                      adimlar: [
+                          {
+                              baslik: "⚙️ Ada Komutları ve Yönetim",
+                              aciklama: "SkyBlock adanızı yönetmek için temel komut:",
+                              maddeler: [
+                                  "/is : Bu komut size bir kontrol menüsü açar. Menü üzerinden:",
+                                  "/island go : Adanıza ışınlanmanızı sağlar.",
+                                  "/is settings : Ada ayarlarınızı açar",
+                                  "/is reset : Adanızı siler ve yeni bir ada oluşturur. (⚠️ Güvenlik amacıyla komutu iki kez yazmanız gerekir)",
+                                  "/is setname <isim> : Adanıza ışınlanmanızı sağlar. (/is setname KRALADA)",
+                                  "/is resetname : Ada ismini sıfırlar.",
+                                  "/island ban <oyuncu> : Belirtilen oyuncuyu adanızdan yasaklar. (/island ban OyuncuAdi)",
+                                  "/island team : Adanıza ortak / işçi / takım arkadaşı eklemenizi sağlar.",
+                                  "/is help : Tüm ada komutlarını listeler.",
+                                  "/is settings : Adanıza ışınlanmanızı sağlar."
+                              ]
+                          },
+                          {
+                              baslik: "🚀 Neden Skyblock?",
+                              aciklama: "Ada Hayatı Yeniden Doğuyor! Kendi adanı oluştur, sıfırdan başlayarak dev bir imparatorluk kur. Tek bir ağaçla başlayan maceran, gökyüzünde yüzen kocaman bir adalar silsilesine dönüşsün!",
+                              maddeler: [
+                                  "Özel Üretilmiş Ada Sistemleri",
+                                  "Rekabetçi Leaderboard - En zengin, en güçlü oyuncu olma yolunda heyecanlı yarış",
+                                  "Gelişmiş Ada Yükseltme - Ada seviyen arttıkça yeni özelliklerin kilidini aç!",
+                                  "Topluluk Etkinlikleri - Düzenli yarışmalar ve sürpriz ödüller"
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  id: 3,
+                  title: "🛒 Alışveriş Sistemi",
+                  desc: "💰 Market Sistemi",
+                  icon: "fa-shop",
+                  tags: ["market", "shop", "MardiumMC Market"],
+                  image: "skyblock-market.jpg",
+                  content: {
+                      giris: "Sunucumuzun ekonomi sistemi gelişmiş bir market altyapısına sahiptir.",
+                      adimlar: [
+                          {
+                              baslik: "Market açmak için:",
+                              aciklama: "Market açmak için: (/market)",
+                              maddeler: [
+                                  "Bu komut sizi sunucu marketine götürür.",
+                                  "📦 Market İçeriği:",
+                                  "Bloklar",
+                                  "Tarım ürünleri",
+                                  "Madenler",
+                                  "Spawnerlar",
+                                  "Özel eşyalar",
+                                  "Gelişim materyalleri",
+                                  "Ekonominin temel döngüsü market sistemi üzerinden sağlanır."
+                              ]
+                          },
+                          {
+                              baslik: "MardiumMC Market",
+                              aciklama: "Özel Ekonomi Sistemi:",
+                              maddeler: [
+                                  "Çok Yakında..."
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  id: 8,
+                  title: "🧑‍💼 Satıcı Sistemi",
+                  desc: "Adana özel Satıcı NPC kur ve eşyalarını hızlıca sat",
+                  icon: "fa-user-tie",
+                  tags: ["satıcı", "npc", "satış", "ekonomi"],
+                  image: "skyblock-satici.jpg",
+                  content: {
+                      giris: "Satıcı Sistemi ile adanda kendine özel bir Satıcı NPC oluşturursun. NPC’ye sağ tıklayınca satış menüsü açılır ve eşyalarını çok hızlı şekilde satabilirsin.",
+                      adimlar: [
+                          {
+                              baslik: "📌 Ne İşe Yarar?",
+                              aciklama: "Satıcı NPC sayesinde satış işlemleri tek tıkla yapılır.",
+                              maddeler: [
+                                  "Adana özel Satıcı NPC oluşturursun.",
+                                  "Sağ tık ile satış menüsü açılır.",
+                                  "Eşyalarını hızlıca satarsın."
+                              ]
+                          },
+                          {
+                              baslik: "✅ Kullanım Şartı",
+                              aciklama: "Komutlar yalnızca adanda çalışır.",
+                              maddeler: [
+                                  "🌍 Sadece adanda çalışır: bskyblock_world",
+                                  "Adanda değilsen: ❌ “Bunu sadece adanızda kullanabilirsiniz!” mesajı gelir."
+                              ]
+                          },
+                          {
+                              baslik: "🧾 Komutlar",
+                              aciklama: "Satıcı sistemi komutları:",
+                              maddeler: [
+                                  "/saticici → Satıcı panelini açar",
+                                  "/saticimenu → Satış menüsünü açar (NPC bunu açtırır)"
+                              ]
+                          },
+                          {
+                              baslik: "🧩 /saticici Paneli",
+                              aciklama: "Menü adı: &8&lSatıcı Paneli",
+                              maddeler: [
+                                  "🟨 Slot 11 – “Satıcı Oluştur”",
+                                  "• 🧍 NPC oluşturur (skin: 📦 MHF_Chest)",
+                                  "• 👀 Yakın oyuncuya bakar (lookclose)",
+                                  "• 🖱️ Sağ tık: /saticimenu çalıştırır",
+                                  "• ✨ Üstüne hologram koyar:",
+                                  "  - SATICI",
+                                  "  - Sağ tıkla (Eşya Sat)",
+                                  "🟥 Slot 15 – “Satıcı Sil”",
+                                  "• 🗑️ NPC’yi siler",
+                                  "• 🧼 Hologramı siler",
+                                  "• ⚠️ Geri alınamaz",
+                                  "🟥 Slot 22 – “Kapat”",
+                                  "• Menü kapanır"
+                              ]
+                          },
+                          {
+                              baslik: "💰 Satış Menüsü (/saticimenu)",
+                              aciklama: "Menü adı: &8&lSatış Menüsü",
+                              maddeler: [
+                                  "📦 Slot 11 – Tüm Envanteri Sat",
+                                  "• Komut: sellall inventory",
+                                  "• ✅ “Tüm envanterin satıldı!” mesajı",
+                                  "🌻 Slot 13 – Eldekini Sat",
+                                  "• Komut: sell hand",
+                                  "• ✅ “Eldeki eşyaların satıldı!” mesajı"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Satıcıyı adanda görünür bir yere koy (spawn noktası gibi).",
+                          "Envanter doluyken satış sonrası item kaybı yaşamamak için önce boş yer bırak.",
+                          "Satıcıyı silmeden önce gerçekten gerek olup olmadığını kontrol et (geri alınamaz)."
+                      ]
+                  }
+              },
+              {
+                  id: 9,
+                  title: "🛒 Marketçi Sistemi",
+                  desc: "Adana özel Market NPC (Villager) kur ve /market açtır",
+                  icon: "fa-store",
+                  tags: ["market", "npc", "villager", "alışveriş"],
+                  image: "skyblock-marketci.jpg",
+                  content: {
+                      giris: "Marketçi Sistemi ile adana kendine özel bir Market NPC (Villager) koyarsın. NPC’ye sağ tıklayınca otomatik olarak /market açılır.",
+                      adimlar: [
+                          {
+                              baslik: "📌 Ne İşe Yarar?",
+                              aciklama: "Market erişimini tek tıkla NPC üzerinden yaparsın.",
+                              maddeler: [
+                                  "Adana özel Villager Marketçi NPC oluşturursun.",
+                                  "Sağ tık ile /market komutu çalışır."
+                              ]
+                          },
+                          {
+                              baslik: "✅ Kullanım Şartı",
+                              aciklama: "Komutlar yalnızca adanda çalışır.",
+                              maddeler: [
+                                  "🌍 Sadece adanda: bskyblock_world"
+                              ]
+                          },
+                          {
+                              baslik: "🧾 Komut",
+                              aciklama: "Marketçi panel komutu:",
+                              maddeler: [
+                                  "/marketci → Marketçi panelini açar"
+                              ]
+                          },
+                          {
+                              baslik: "🧩 /marketci Paneli",
+                              aciklama: "Menü adı: &8&lMarketçi Paneli",
+                              maddeler: [
+                                  "🟩 Slot 11 – “Marketçi Oluştur”",
+                                  "• 🧍 Villager NPC oluşturur: market-%uuid%",
+                                  "• 📍 NPC’yi oyuncunun yanına ışınlar",
+                                  "• 👀 lookclose açar",
+                                  "• 🖱️ Sağ tık: /market komutu çalıştırır",
+                                  "• ✨ Hologram oluşturur:",
+                                  "  - MARKET",
+                                  "  - Sağ tıkla (/market)",
+                                  "🟥 Slot 15 – “Marketçi Sil”",
+                                  "• 🗑️ NPC’yi siler",
+                                  "• 🧼 Hologramı siler",
+                                  "🟥 Slot 22 – “Kapat”",
+                                  "• Menü kapanır + “Menü kapatıldı.” mesajı"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Marketçiyi Satıcı’nın yanına koyarsan ada ekonomisi daha düzenli görünür.",
+                          "NPC’yi yanlış yere kurarsan silip tekrar oluştur (slot 15 / slot 11)."
+                      ]
+                  }
+              },
+              {
+                  id: 10,
+                  title: "🤖 Minions Sistemi (Oyuncu Rehberi)",
+                  desc: "Minyonlar otomatik kazsın, biçsin, mob kessin",
+                  icon: "fa-robot",
+                  tags: ["minyon", "otomasyon", "farmer", "miner", "slayer"],
+                  image: "skyblock-minions.jpg",
+                  content: {
+                      giris: "Minyonlar adanda senin için otomatik çalışır. Belirli aralıklarla aksiyon yapar ve eşyaları kendi depolarında biriktirir.",
+                      adimlar: [
+                          {
+                              baslik: "📌 Ne İşe Yarar?",
+                              aciklama: "Minyon türleri ve görevleri:",
+                              maddeler: [
+                                  "⛏️ Kazar (Miner)",
+                                  "🌾 Eker/Biçer (Farmer)",
+                                  "⚔️ Mob keser (Slayer)",
+                                  "Topladıklarını kendi depolarında biriktirir."
+                              ]
+                          },
+                          {
+                              baslik: "⏱️ Çalışma Hızı",
+                              aciklama: "Minyonlar düzenli aralıklarla çalışır.",
+                              maddeler: [
+                                  "Minyonlar her 20 saniyede bir aksiyon yapacak şekilde ayarlı: {MinionsActiveDelay}=20"
+                              ]
+                          },
+                          {
+                              baslik: "🧾 Oyuncu Komutu",
+                              aciklama: "Minyon menüsünü açma:",
+                              maddeler: [
+                                  "/minyonlar (alias: /minion) → Minyon listesini açar",
+                                  "🔒 Seviye şartı: Level 2"
+                              ]
+                          },
+                          {
+                              baslik: "🧺 Minyon Envanteri / Toplama",
+                              aciklama: "Minyon biriktirdiklerini alma:",
+                              maddeler: [
+                                  "Minyon GUI’sinde 📥 Collect (Topla) butonu ile itemleri alırsın.",
+                                  "Envanterin doluysa itemler yere düşebilir."
+                              ]
+                          },
+                          {
+                              baslik: "⬆️ Minyon Upgrade",
+                              aciklama: "Upgrade ile güçlendirme:",
+                              maddeler: [
+                                  "📦 Daha fazla slot (depo kapasitesi)",
+                                  "🍀 Daha fazla ekstra drop şansı",
+                                  "💎 Daha iyi drop oranı"
+                              ]
+                          },
+                          {
+                              baslik: "🎨 Skin Sistemi",
+                              aciklama: "Minyonlara görünüm basma:",
+                              maddeler: [
+                                  "Skin itemi elinde iken minyona sağ tıklarsan uygulanır.",
+                                  "Eski skin varsa geri verir."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Envanter doluluğunu kontrol etmeden Collect yapma (itemler yere düşebilir).",
+                          "Upgrade önceliğini depo kapasitesine vermek, daha az uğraş sağlar.",
+                          "Farklı görevler için farklı minyon türleri kurarak adayı otomatikleştir."
+                      ]
+                  }
+              },
+              {
+                  id: 11,
+                  title: "📜 200 Görev Sistemi (Oyuncu)",
+                  desc: "200 görev döngüsü: teslim et, para kazan, liderliğe oyna",
+                  icon: "fa-list-check",
+                  tags: ["görev", "para", "liderlik", "progression"],
+                  image: "skyblock-gorev.png",
+                  content: {
+                      giris: "200 Görev Sistemi’nde oyuncular sırayla toplam 200 görev yapar. Her görev teslim edildiğinde 100–300 arası para verir (döngüsel hesap).",
+                      adimlar: [
+                          {
+                              baslik: "📌 Ne İşe Yarar?",
+                              aciklama: "Görev döngüsü ve ödüller:",
+                              maddeler: [
+                                  "Toplam 200 görev sırasıyla ilerler.",
+                                  "Her teslim: 💰 100–300 arası para (döngüsel)."
+                              ]
+                          },
+                          {
+                              baslik: "🕒 Otomatik Tanıtım",
+                              aciklama: "Sunucuya girince bilgilendirme otomasyonu:",
+                              maddeler: [
+                                  "⏱️ 10 dk sonra bilgilendirme mesajı",
+                                  "⏱️ 20 dk sonra otomatik /gorev açtırır"
+                              ]
+                          },
+                          {
+                              baslik: "🧾 Komutlar",
+                              aciklama: "Görev komutları:",
+                              maddeler: [
+                                  "📌 /gorev → aktif görevi gösterir",
+                                  "✅ /gorev teslim → görevi teslim eder (envanter kontrol)",
+                                  "🏆 /gorev top → en çok görev yapanlar (Top 10)",
+                                  "❓ /gorev yardim → yardım menüsü"
+                              ]
+                          },
+                          {
+                              baslik: "📦 Görev Tipleri",
+                              aciklama: "Görev aralıklarına göre türler:",
+                              maddeler: [
+                                  "🧱 Toplama/Teslim (1–120)",
+                                  "• kolay bloklar: dirt, cobble, log, sand, gravel, coal, wheat vb.",
+                                  "• miktarlar: 16 → 128 arası",
+                                  "🛠️ Üret/Teslim (121–170)",
+                                  "• crafting table, chest, furnace, torch, tool vb.",
+                                  "• miktar çoğunlukla 1 (bazılarında 16/32/64)",
+                                  "👹 Drop Teslim (171–200)",
+                                  "• rotten flesh, bone, string, gunpowder, ender pearl vb.",
+                                  "• son 10 görev: 🪶 64 feather (kolay)"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Teslim etmeden önce envanterinde istenen itemlerin tam olduğuna emin ol.",
+                          "Top 10 listesine girmek için görevleri düzenli takip et ve teslimleri aksatma.",
+                          "Son görevlerde istenen droplar için mob farm kurmak çok hızlandırır."
+                      ]
+                  }
+              },
+              {
+                  id: 12,
+                  title: "🏦 MardiumMC Banka Sistemi",
+                  desc: "Faiz kazan, Tier yükselt, paranı büyüt!",
+                  icon: "fa-building-columns",
+                  tags: ["banka", "faiz", "tier", "ekonomi"],
+                  image: "skyblock-banka.jpg",
+                  content: {
+                      giris: "MardiumMC Bankası, paranı güvenle saklamanı ve her gün faiz kazanmanı sağlar. Tier sistemini geliştirerek limitini artırabilir ve daha fazla kazanç elde edebilirsin.",
+                      adimlar: [
+                          {
+                              baslik: "💰 Banka Nasıl Çalışır?",
+                              aciklama: "MardiumMC Banka sistemi sana şunları sunar:",
+                              maddeler: [
+                                  "Paranı bankaya yatırırsın ve güvende kalır.",
+                                  "Her gün otomatik faiz kazanırsın.",
+                                  "Tier yükselttikçe hem limit hem faiz oranı artar.",
+                                  "Para çekerken küçük bir işlem ücreti kesilir."
+                              ]
+                          },
+                          {
+                              baslik: "🧾 Kullanabileceğin Komutlar",
+                              aciklama: "Banka işlemleri için:",
+                              maddeler: [
+                                  "/banka → Banka menüsü",
+                                  "/banka kayit → 100 para ile hesap açarsın",
+                                  "/banka bilgi → Tier, limit ve bakiye bilgini görürsün",
+                                  "/banka yatir <miktar> → Bankaya para yatırırsın",
+                                  "/banka cek <miktar> → Bankadan para çekersin",
+                                  "/banka gelistir → Tier yükseltirsin"
+                              ]
+                          },
+                          {
+                              baslik: "📈 Günlük Faiz",
+                              aciklama: "Faiz her gün otomatik işler.",
+                              maddeler: [
+                                  "Faiz saati: 04:00",
+                                  "Tier yükseldikçe faiz oranı artar.",
+                                  "Günlük maksimum faiz kazancı: 400.000"
+                              ]
+                          },
+                          {
+                              baslik: "🏷️ Tier Limitleri",
+                              aciklama: "Bankaya koyabileceğin maksimum para:",
+                              maddeler: [
+                                  "Tier1: 5.000",
+                                  "Tier2: 15.000",
+                                  "Tier3: 40.000",
+                                  "Tier4: 100.000",
+                                  "Tier5: 250.000",
+                                  "Tier6: 750.000",
+                                  "Tier7: 2.500.000",
+                                  "Tier8: 10.000.000"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Limit dolduysa daha fazla yatırmak için Tier yükseltmelisin.",
+                          "Faiz sistemini aktif kullanarak pasif gelir elde edebilirsin.",
+                          "Büyük meblağları çekmeden önce işlem ücretini hesaba kat."
+                      ]
+                  }
+              },
+              {
+                  id: 13,
+                  title: "⛏️ Arena Maden Sistemi",
+                  desc: "Arena dünyasında özel yenilenebilir maden sistemi",
+                  icon: "fa-mountain",
+                  tags: ["maden", "arena", "vip"],
+                  image: "skyblock-maden.png",
+                  content: {
+                      giris: "MardiumMC Arena dünyasında madenler özel sistemle çalışır. Kırdığında direkt envanterine gelir ve kısa süre sonra tekrar yenilenir.",
+                      adimlar: [
+                          {
+                              baslik: "🌍 Nerede Çalışır?",
+                              aciklama: "Sistem sadece Arena dünyasında aktiftir.",
+                              maddeler: [
+                                  "Yenilenme süresi: 3 dakika"
+                              ]
+                          },
+                          {
+                              baslik: "🔐 Maden Türleri",
+                              aciklama: "Bazı madenler özel izin gerektirir:",
+                              maddeler: [
+                                  "Kömür: Normal oyuncular kırabilir.",
+                                  "Elmas, Zümrüt, Demir, Lapis, Ancient Debris: VIP oyunculara özeldir."
+                              ]
+                          },
+                          {
+                              baslik: "⚙️ Sistem Mantığı",
+                              aciklama: "Kırdığında ne olur?",
+                              maddeler: [
+                                  "Maden direkt envanterine gelir.",
+                                  "Blok geçici olarak bedrock olur.",
+                                  "3 dakika sonra eski haline döner."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Arena’da rota yaparak sürekli dönen bir farm sistemi kurabilirsin.",
+                          "VIP madenler daha değerli kazanç sağlar."
+                      ]
+                  }
+              },
+              {
+                  id: 14,
+                  title: "📦 Kutu Seçimi",
+                  desc: "Şansını dene, doğru sandığı bul ve 2 kat kazan!",
+                  icon: "fa-box-open",
+                  tags: ["kutu", "şans"],
+                  image: "skyblock-kumar.png",
+                  content: {
+                      giris: "MardiumMC Kutu sistemi tamamen şansa dayalıdır. 3 sandıktan birini seçersin. Doğruysa 2 katı kazanırsın, yanlışsa paran kasaya gider.",
+                      adimlar: [
+                          {
+                              baslik: "🎮 Nasıl Oynanır?",
+                              aciklama: "Tek yapman gereken:",
+                              maddeler: [
+                                  "/kutu <miktar> yazmak",
+                                  "3 sandıktan birini seçmek",
+                                  "Şansına güvenmek!"
+                              ]
+                          },
+                          {
+                              baslik: "🏆 Kazanırsan",
+                              aciklama: "Doğru sandığı seçersen:",
+                              maddeler: [
+                                  "Bahis x2 kazanırsın.",
+                                  "Kazancın direkt bakiyene eklenir."
+                              ]
+                          },
+                          {
+                              baslik: "💣 Kaybedersen",
+                              aciklama: "Yanlış sandıkta:",
+                              maddeler: [
+                                  "Bahis kasaya gider.",
+                                  "Bir dahaki sefere tekrar deneyebilirsin."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Unutma: Şans oyunu, garanti kazanç yok.",
+                          "Büyük miktarla oynamadan önce riskini hesapla."
+                      ]
+                  }
+              },
+              {
+                  id: 15,
+                  title: "🎰 Kumar Sistemi",
+                  desc: "Bahis yap, çarkı döndür ve 2 kat kazan!",
+                  icon: "fa-dice",
+                  tags: ["kumar", "bahis"],
+                  image: "skyblock-kumar.png",
+                  content: {
+                      giris: "MardiumMC Kumar sistemi risk ve ödül üzerine kuruludur. Bahis miktarın arttıkça risk de artar.",
+                      adimlar: [
+                          {
+                              baslik: "🎯 Nasıl Oynanır?",
+                              aciklama: "Çark sistemine giriş:",
+                              maddeler: [
+                                  "/kumar yaz",
+                                  "Bahis miktarını ayarla",
+                                  "Çarkı döndür"
+                              ]
+                          },
+                          {
+                              baslik: "💰 Kazanırsan",
+                              aciklama: "Şansın tutarsa:",
+                              maddeler: [
+                                  "Bahis x2 kazanırsın."
+                              ]
+                          },
+                          {
+                              baslik: "⚠️ Risk Sistemi",
+                              aciklama: "Bahis büyüdükçe:",
+                              maddeler: [
+                                  "Yüksek bahis → Daha düşük kazanma şansı",
+                                  "All-in → En riskli seçim"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Kasa boşsa ödeme alamazsın.",
+                          "Arka arkaya oynamadan önce riskini kontrol et."
+                      ]
+                  }
+              },
+              {
+                  id: 16,
+                  title: "⚒️ Demirci Sistemi",
+                  desc: "Eşyana + bas, güçlen ve risk al!",
+                  icon: "fa-hammer",
+                  tags: ["demirci", "upgrade"],
+                  image: "skyblock-demirci.png",
+                  content: {
+                      giris: "MardiumMC Demirci sistemi sayesinde eşyalarını güçlendirebilirsin. Ancak risk her zaman vardır!",
+                      adimlar: [
+                          {
+                              baslik: "🔓 Nasıl Açılır?",
+                              aciklama: "Demirciyi açmak için:",
+                              maddeler: [
+                                  "Obsidyen teslim etmelisin.",
+                                  "Açma ücretini ödemen gerekir."
+                              ]
+                          },
+                          {
+                              baslik: "📈 Yükseltme",
+                              aciklama: "Eşyaya + basmak için:",
+                              maddeler: [
+                                  "Mardium Kristali gerekir.",
+                                  "Seviye arttıkça başarı şansı düşer.",
+                                  "Yüksek seviyede eşya yanabilir."
+                              ]
+                          },
+                          {
+                              baslik: "💥 Risk",
+                              aciklama: "Başarısız olursan:",
+                              maddeler: [
+                                  "Kristal gider.",
+                                  "Bazı durumlarda eşya tamamen yok olabilir."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Değerli eşyaları basarken dikkatli ol.",
+                          "Yüksek seviyelerde risk çok daha fazladır."
+                      ]
+                  }
+              },
+              {
+                  id: 17,
+                  title: "🏇 At Yarışı",
+                  desc: "Yarışa katıl, bahis oyna ve ödülü kap!",
+                  icon: "fa-horse",
+                  tags: ["yarış", "bahis"],
+                  image: "skyblock-atyarışı.png",
+                  content: {
+                      giris: "MardiumMC At Yarışı sistemi ile hem yarışabilir hem de bahis oynayabilirsin.",
+                      adimlar: [
+                          {
+                              baslik: "🏁 Yarışa Katılmak",
+                              aciklama: "Katılım süresinde:",
+                              maddeler: [
+                                  "/yaris katil yaz",
+                                  "Katılım ücretini öde",
+                                  "Start’ı bekle"
+                              ]
+                          },
+                          {
+                              baslik: "💰 Bahis Oynamak",
+                              aciklama: "Bir yarışmacıya bahis yapmak için:",
+                              maddeler: [
+                                  "/yaris bahis <isim> <tutar>",
+                                  "Kazanan at gelirse 2 kat ödeme alırsın."
+                              ]
+                          },
+                          {
+                              baslik: "🏆 Ödüller",
+                              aciklama: "Yarışta dereceye girersen:",
+                              maddeler: [
+                                  "1. büyük ödül alır",
+                                  "2. ve 3. ödül kazanır",
+                                  "Diğerleri teselli alabilir"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Bahis oynarken yarışmacıyı iyi seç.",
+                          "Start öncesi ata hazır olduğundan emin ol."
+                      ]
+                  }
+              },
+              {
+                  id: 18,
+                  title: "🐎 MardiuMat At Sistemi",
+                  desc: "Kendi atını satın al, geliştir ve en hızlısı sen ol!",
+                  icon: "fa-horse-head",
+                  tags: ["at", "mardiumat", "binek", "gelişim"],
+                  image: "skyblock-atyarışı.png",
+                  content: {
+                      giris: "MardiuMat v10.0 sistemi ile kendi kişisel atına sahip olabilir, onu besleyip seviyesini yükselterek daha hızlı ve daha dayanıklı bir binek elde edebilirsin.",
+                      adimlar: [
+                          {
+                              baslik: "🐴 Nasıl At Alınır?",
+                              aciklama: "Kendi atına sahip olmak için belirli bir miktar ödeme yapman gerekir.",
+                              maddeler: [
+                                  "Satın alma komutu: /mmat satinal (veya /mardiumat satinal)",
+                                  "Atınız başlangıçta 1. seviye olarak size teslim edilir.",
+                                  "Satın aldıktan sonra /mmat cagir komutu ile atınızı yanınıza çağırabilirsiniz.",
+                                  "Atınızı geri ahıra göndermek için /mmat gonder yazabilirsiniz."
+                              ]
+                          },
+                          {
+                              baslik: "📈 Atı Geliştirmek (Seviye Atlama)",
+                              aciklama: "Atınızın seviyesi arttıkça hızı, canı ve zıplama gücü artar (Maksimum Seviye: 30).",
+                              maddeler: [
+                                  "Geliştirmek için: /mmat yukselt",
+                                  "Yükseltme işlemi hem oyun içi Para hem de XP gerektirir.",
+                                  "Seviye atladıkça atınızın görünümü ve yetenekleri gözle görülür şekilde iyileşir.",
+                                  "Eski seviyelere dönmek veya görünümü değiştirmek için /mmat seviye <sayı> komutunu kullanabilirsiniz."
+                              ]
+                          },
+                          {
+                              baslik: "📜 At Sertifikası (Yumurtaya Çevirme)",
+                              aciklama: "Atınızı eşya formuna dönüştürüp saklayabilir veya ticaretini yapabilirsiniz.",
+                              maddeler: [
+                                  "Dönüştürmek için: /mmat sertifika (veya /mmat sat)",
+                                  "Atınız dünyadan silinir ve tüm verileriyle (XP, Seviye) birlikte envanterinize 'At Sertifikası' spawn yumurtası olarak gelir.",
+                                  "Sertifikayı tekrar kullanmak için yumurtaya sağ tıklamanız yeterlidir."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "At sistemi sadece izin verilen dünyalarda (Ada dünyası vb.) çalışır, atınızı çağıramıyorsanız yanlış dünyadasınız demektir.",
+                          "Sunucudaki en iyi atları görmek için /mmat top yazarak sıralamaya bakabilirsiniz.",
+                          "VIP oyuncular /mmat isim <yeni isim> komutu ile atlarına özel isim verebilirler."
+                      ]
+                  }
+              },
+              {
+                  id: 19,
+                  title: "🏰 Zindan (Dungeon) Sistemi",
+                  desc: "Takımını kur, yaratık dalgalarını temizle ve Boss'u yok et!",
+                  icon: "fa-dungeon",
+                  tags: ["zindan", "dungeon", "boss", "pve", "savaş"],
+                  image: "skyblock-zindan.jpg",
+                  content: {
+                      giris: "Zindan sistemi, arkadaşlarınızla beraber yaratık dalgalarına karşı hayatta kalmaya çalıştığınız ve sonunda güçlü bir Boss ile yüzleştiğiniz üst düzey bir PvE etkinliğidir.",
+                      adimlar: [
+                          {
+                              baslik: "⚔️ Zindana Giriş ve Şartlar",
+                              aciklama: "Zindanlara katılmak için belirli şartları karşılamalısınız.",
+                              maddeler: [
+                                  "Giriş komutu: /zindan (veya /dungeons)",
+                                  "Giriş yapabilmek için en az Seviye 5 olmalısınız.",
+                                  "Zindanların aktif olduğu belirli saat aralıkları vardır.",
+                                  "Zindandan çıkmak için /ayrıl komutunu kullanabilirsiniz."
+                              ]
+                          },
+                          {
+                              baslik: "🌊 Yaratık Dalgaları ve Odalar",
+                              aciklama: "Zindan birden fazla oda ve dalgadan oluşur.",
+                              maddeler: [
+                                  "Her odada belirli sayıda yaratık (Zombi, İskelet, Blaze, Magma Cube) doğar.",
+                                  "Dalga temizlendikçe yaratıkların canı, gücü ve zırh seviyeleri artar.",
+                                  "Odaları tamamladığınızda bir sonraki kapıyı açmak için 'Anahtar' kazanırsınız.",
+                                  "Zindandaki gizli sandıkları (Trapped Chest) bularak Orblar, Luckyblock, Magic Feather gibi özel eşyalar kazanabilirsiniz."
+                              ]
+                          },
+                          {
+                              baslik: "👹 Final Boss Savaşı",
+                              aciklama: "Son odada sizi özel yetenekleri olan zorlu bir Boss bekler.",
+                              maddeler: [
+                                  "Boss havadan ve karadan özel büyülü saldırılar (Lava Line, Air Attack, Sonic Boom) yapar.",
+                                  "Boss savaşında hayatta kalmak için sürekli hareket etmeli ve arenadaki lav tuzaklarına dikkat etmelisiniz.",
+                                  "Boss'u yendiğinizde tüm oyuncular yüksek miktarda Gem ve zafer ödülü kazanır."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Zindanda öldüğünüzde eşyalarınız düşmez, ancak zindan başlangıcına ışınlanırsınız.",
+                          "Zindanlardaki moblardan ekstra eşya düşürme (Drop Rate) oranları, odalar ilerledikçe artar. Takım çalışması şarttır!",
+                          "Boss'un üzerindeki Boss Bar'dan can durumunu ve bir sonraki dalganın gelmesine kaç yaratık kaldığını takip edebilirsiniz."
+                      ]
+                  }
+              },
+              {
+                  id: 20,
+                  title: "🎲 Zar Düellosu",
+                  desc: "Şansına güven, zarları at ve kasanın parasını sen al!",
+                  icon: "fa-dice",
+                  tags: ["zar", "kumar", "bahis", "şans", "oyun"],
+                  image: "skyblock-kumar.png",
+                  content: {
+                      giris: "Zar Düellosu, tamamen şansa dayalı hızlı bir mini-oyundur. Belirlediğin miktarda parayı yatırarak zarları atar ve çıkan toplama göre büyük ödüller kazanabilirsin.",
+                      adimlar: [
+                          {
+                              baslik: "🎯 Nasıl Oynanır?",
+                              aciklama: "Oyuna katılmak çok basittir:",
+                              maddeler: [
+                                  "Bilgi menüsünü görmek için sadece /zar yazın.",
+                                  "Oynamak için: /zar <miktar> (Örn: /zar 5000)",
+                                  "Minimum bahis miktarı 500 TL'dir.",
+                                  "Komutu girdikten sonra zar ekranı açılır ve zarlar dönmeye başlar."
+                              ]
+                          },
+                          {
+                              baslik: "💰 Kazanç Tablosu",
+                              aciklama: "İki zarın toplamına göre kazanır veya kaybedersiniz:",
+                              maddeler: [
+                                  "🔥 Toplam 7 gelirse (Büyük İkramiye): Yatırdığın paranın 3 katını kazanırsın!",
+                                  "✅ Toplam 8, 9, 10, 11 veya 12 gelirse (Normal Kazanç): Yatırdığın paranın 2 katını kazanırsın!",
+                                  "❌ Toplam 2, 3, 4, 5 veya 6 gelirse (Kayıp): Paranı kaybedersin ve para Sunucu Kasası'na gider."
+                              ]
+                          },
+                          {
+                              baslik: "🏦 Sunucu Kasası Sistemi",
+                              aciklama: "Bu oyun diğer oyuncularla değil, doğrudan sunucu kasasıyla oynanır.",
+                              maddeler: [
+                                  "Menüden sunucu kasasında ne kadar para biriktiğini görebilirsiniz.",
+                                  "Eğer kasanın parası senin 3 katı kazancını ödemeye yetmiyorsa sistem bahis yapmana izin vermez.",
+                                  "Kaybedilen tüm paralar kasanın büyümesini sağlar."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Animasyon sürerken (zarlar dönerken) menüyü kapatırsanız sistem arka planda sonucu hesaplar ve hesabınıza yansıtır, hakkınız kaybolmaz.",
+                          "Sürekli oynamak yerine şansınızın yaver gittiği anlarda büyük ödülü (7) beklemek daha mantıklı olabilir."
+                      ]
+                  }
+              },
+              {
+                  id: 21,
+                  title: "🚀 Başlangıç Rehberi",
+                  desc: "SkyBlock macerana doğru başlangıç yap!",
+                  icon: "fa-rocket",
+                  tags: ["başlangıç", "rehber", "yeni oyuncu"],
+                  image: "skyblock-ada.jpg",
+                  content: {
+                      giris: "Sunucuya ilk giriş yaptığınızda sizi Jerry karşılar ve maceranız burada başlar.",
+                      adimlar: [
+                          {
+                              baslik: "👋 Jerry ile Tanış",
+                              aciklama: "Spawn bölgesinde bulunan Jerry ile konuşarak başlangıç adanı oluştur.",
+                              maddeler: [
+                                  "Jerry senin için portal bulunan özel bir ada oluşturur.",
+                                  "Portal tamamlandıktan sonra adana geçiş yapabilirsin."
+                              ]
+                          },
+                          {
+                              baslik: "🏝️ Adana Geçiş",
+                              aciklama: "Portal aracılığıyla kişisel SkyBlock adana geç.",
+                              maddeler: [
+                                  "Adan tamamen sana özeldir.",
+                                  "Gelişimin bu ada üzerinde ilerler."
+                              ]
+                          },
+                          {
+                              baslik: "📚 Eğitici Sistemi",
+                              aciklama: "Spawn'a vardığında eğitici otomatik başlar.",
+                              maddeler: [
+                                  "Shift tuşu ile eğiticiyi atlayabilirsin.",
+                                  "Bossbar üzerindeki görevleri takip ederek ödüller kazanırsın."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Bossbar görevlerini erken tamamlamak hızlı gelişim sağlar.",
+                          "Başlangıç görevleri temel sistemleri öğretir."
+                      ]
+                  }
+              },
+              {
+                  id: 22,
+                  title: "🎮 Temel Komutlar",
+                  desc: "SkyBlock'ta en çok kullanacağın komutlar.",
+                  icon: "fa-terminal",
+                  tags: ["komut", "yardım", "temel"],
+                  image: "skyblock-ada2.jpg",
+                  content: {
+                      giris: "Bu komutlar oyunda en sık kullanacağın temel sistemleri içerir.",
+                      adimlar: [
+                          {
+                              baslik: "📌 Genel Komutlar",
+                              aciklama: "Işınlanma ve temel işlemler:",
+                              maddeler: [
+                                  "/spawn",
+                                  "/warp [isim]",
+                                  "/sethome [isim]",
+                                  "/home [isim]",
+                                  "/delhome [isim]"
+                              ]
+                          },
+                          {
+                              baslik: "💰 Ekonomi Komutları",
+                              aciklama: "Para işlemleri:",
+                              maddeler: [
+                                  "/balance veya /money",
+                                  "/pay [oyuncu] [miktar]"
+                              ]
+                          },
+                          {
+                              baslik: "🔗 Bağlantı Komutları",
+                              aciklama: "Sunucu bağlantıları:",
+                              maddeler: [
+                                  "/discord",
+                                  "/store",
+                                  "/vote",
+                                  "/helpop [mesaj]"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Komutların çoğu TAB ile otomatik tamamlanır.",
+                          "Warp isimlerini doğru yazmaya dikkat et."
+                      ]
+                  }
+              },
+              {
+                  id: 23,
+                  title: "🏝️ Ada Sistemi",
+                  desc: "Adanı yönet, yükselt ve büyüt!",
+                  icon: "fa-island-tropical",
+                  tags: ["ada", "island", "skyblock"],
+                  image: "skyblock-ada.jpg",
+                  content: {
+                      giris: "SkyBlock’un kalbi adandır. Tüm gelişimin burada şekillenir.",
+                      adimlar: [
+                          {
+                              baslik: "⚙️ Ada Paneli",
+                              aciklama: "Tüm ada ayarları için:",
+                              maddeler: [
+                                  "/is veya /island",
+                                  "/is level",
+                                  "/is upgrades",
+                                  "/is bank"
+                              ]
+                          },
+                          {
+                              baslik: "📈 Ada Seviyesi",
+                              aciklama: "Ada EXP kazanarak seviye atlar.",
+                              maddeler: [
+                                  "Blok yerleştirerek ve kırarak EXP kazanırsın.",
+                                  "Her seviye ödül verir.",
+                                  "Yüksek seviye yeni avantajlar açar."
+                              ]
+                          },
+                          {
+                              baslik: "👥 Ada Üyeleri",
+                              aciklama: "Arkadaşlarınla birlikte oynayabilirsin.",
+                              maddeler: [
+                                  "/is invite [oyuncu]",
+                                  "/is kick [oyuncu]"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Ada seviyesini erken kasmak büyük avantaj sağlar.",
+                          "Bankanı güvenli para depolamak için kullan."
+                      ]
+                  }
+              },
+              {
+                  id: 24,
+                  title: "📜 Görevler ve İşler",
+                  desc: "Görev yaparak ve çalışarak para kazan!",
+                  icon: "fa-scroll",
+                  tags: ["görev", "jobs", "quests"],
+                  image: "skyblock-gorev.jpg",
+                  content: {
+                      giris: "SkyBlock'ta para kazanmanın en iyi yollarından biri görevler ve işlerdir.",
+                      adimlar: [
+                          {
+                              baslik: "🎯 Görevler (/quests)",
+                              aciklama: "Kategori bazlı görevler:",
+                              maddeler: [
+                                  "/quests menüsünü aç.",
+                                  "Kategori seç.",
+                                  "Görevi başlat ve tamamla.",
+                                  "Ödülü al."
+                              ]
+                          },
+                          {
+                              baslik: "🛠️ İşler (/jobs)",
+                              aciklama: "Sürekli gelir sistemi:",
+                              maddeler: [
+                                  "/jobs ile iş seç.",
+                                  "Madenci, Çiftçi, Oduncu gibi meslekler.",
+                                  "Seviye arttıkça kazanç çarpanı artar."
+                              ]
+                          },
+                          {
+                              baslik: "⏳ Misyonlar",
+                              aciklama: "Günlük ve haftalık görevler:",
+                              maddeler: [
+                                  "Saatlik, günlük veya haftalık yenilenir.",
+                                  "Para ve Mücevher kazandırır."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Birden fazla sistemden aynı anda para kazanabilirsin.",
+                          "İş seviyeni yükseltmek uzun vadede büyük kazanç sağlar."
+                      ]
+                  }
+              },
+              {
+                  id: 25,
+                  title: "⛏️ Maden ve Kaynaklar",
+                  desc: "Kaynak topla, şans bloklarını bul ve hızlan!",
+                  icon: "fa-pickaxe",
+                  tags: ["maden", "kaynak", "warp", "deepcave"],
+                  image: "skyblock-madenler.jpg",
+                  content: {
+                      giris: "Gelişmek için ihtiyacınız olan temel ve değerli kaynakları toplamak üzere maden dünyalarına adım atın.",
+                      adimlar: [
+                          {
+                              baslik: "🪨 Maden Bölgeleri",
+                              aciklama: "Seviyenize göre erişebileceğiniz madenler:",
+                              maddeler: [
+                                  "/warp maden : Başlangıç madenidir. Taş, kömür, demir ve altın gibi temel kaynakları içerir.",
+                                  "/warp deepcave : Yüksek ada seviyelerinde açılır. Elmas, zümrüt, deepslate gibi çok daha değerli madenler barındırır."
+                              ]
+                          },
+                          {
+                              baslik: "✨ Özel Bloklar",
+                              aciklama: "Kazı yaparken karşınıza çıkabilecek sürprizler:",
+                              maddeler: [
+                                  "🎁 Şans Blokları: Nadiren parlayan bloklar olarak belirir. Kırdığınızda para, eşya veya bazen tehlikeli bir patlama ile karşılaşabilirsiniz!",
+                                  "⚡ Hızlandırıcılar: Bu blokları bulup kazdığınızda karakterinize geçici bir madencilik hızı (Haste) buff'ı uygulanır."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Derin mağaraya (Deep Cave) erişmek için önceliğinizi ada seviyenizi yükseltmeye verin.",
+                          "Şans bloklarını kazarken canınızın dolu olduğundan emin olun, patlamalara karşı hazırlıklı olun."
+                      ]
+                  }
+              },
+              {
+                  id: 26,
+                  title: "💰 Ekonomi ve Ticaret",
+                  desc: "Alışveriş yap, eşya sat ve Coinflip ile risk al",
+                  icon: "fa-coins",
+                  tags: ["ekonomi", "ticaret", "shop", "ah", "coinflip"],
+                  image: "skyblock-ticaret.jpg",
+                  content: {
+                      giris: "Sunucu ekonomisine yön verin! İster dükkandan alışveriş yapın, ister oyuncularla ticaret yapın, isterseniz de şansınızı deneyin.",
+                      adimlar: [
+                          {
+                              baslik: "🛒 Temel Alışveriş",
+                              aciklama: "Eşya alma ve satma yöntemleri:",
+                              maddeler: [
+                                  "/shop : Sunucu dükkanını açar. İhtiyacınız olan temel blok ve eşyaları buradan temin edebilirsiniz.",
+                                  "/ah veya /auction : Oyuncu pazarını açar. Eşyalarınızı diğer oyunculara satabilir veya onlardan nadir eşyalar alabilirsiniz."
+                              ]
+                          },
+                          {
+                              baslik: "🪄 Satış Değneği (Sell Wand)",
+                              aciklama: "Toplu satış yapmanın en kolay yolu:",
+                              maddeler: [
+                                  "Sandıklardaki eşyaları tek tek satmak yerine Satış Değneği ile sandığa sağ tıklayın.",
+                                  "Sandıktaki satılabilir tüm eşyaları otomatik satar.",
+                                  "Değneklerin belirli bir kullanım hakkı ve ekstra kazanç sağlayan satış çarpanları bulunur."
+                              ]
+                          },
+                          {
+                              baslik: "🪙 CoinFlip",
+                              aciklama: "Yazı-tura ile paranızı katlayın:",
+                              maddeler: [
+                                  "/coinflip : Yazı-tura menüsünü açar.",
+                                  "Belirli bir miktar para ortaya koyarak diğer oyuncularla %50 şansla düello yaparsınız.",
+                                  "Kazanan ortadaki tüm parayı alır!"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Açık artırmada (/ah) piyasa fiyatlarını takip ederek al-sat (ticaret) yapıp zengin olabilirsiniz.",
+                          "Satış değneklerinizi, çiftlik ve mob spawner sandıklarında kullanarak zamandan tasarruf edin."
+                      ]
+                  }
+              },
+              {
+                  id: 27,
+                  title: "💬 Sohbet ve Sosyal Özellikler",
+                  desc: "Rütbeler, emojiler ve parlama efektleriyle tarzını yansıt",
+                  icon: "fa-messages",
+                  tags: ["sohbet", "sosyal", "emoji", "glow", "ikon"],
+                  image: "skyblock-sohbet.jpg",
+                  content: {
+                      giris: "Sohbette öne çıkın ve karakterinizi özelleştirin. Sunucuda sosyalleşmek hiç bu kadar renkli olmamıştı.",
+                      adimlar: [
+                          {
+                              baslik: "🏷️ Rütbeler ve İkonlar",
+                              aciklama: "İsminizi ve sohbet renginizi özelleştirin:",
+                              maddeler: [
+                                  "Rütbeler: Ada seviyesiyle veya mağazadan elde edilir. Özel sohbet renkleri ve ön ekler sağlar.",
+                                  "/icons : Adınızın başına ekleyebileceğiniz özel sembolleri ve ikonları seçip satın alabileceğiniz menüdür."
+                              ]
+                          },
+                          {
+                              baslik: "✨ Parlama (Glow) Sistemi",
+                              aciklama: "Karakterinizin etrafına ışık saçın:",
+                              maddeler: [
+                                  "Belirli bir ada seviyesine ulaştığınızda karakterinizin etrafında bir parıltı (aura) açılır.",
+                                  "/glow color : Parlamanızın rengini zevkinize göre değiştirmenizi sağlar."
+                              ]
+                          },
+                          {
+                              baslik: "😀 Eğlenceli Emojiler",
+                              aciklama: "Sohbette kullanabileceğiniz özel kodlar:",
+                              maddeler: [
+                                  ":tableflip: → (╯°□°)╯︵ ┻━┻",
+                                  ":shrug: → ¯\\_( ͡❛ ͜ʖ ͡❛)_/¯",
+                                  ":lenny: → ( ͡❛ ͜ʖ ͡❛)",
+                                  ":yes: → ✔",
+                                  ":no: → ❌",
+                                  "<3 → ❤"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "İkonlar ve rütbeler sohbet akışında mesajlarınızın daha kolay fark edilmesini sağlar.",
+                          "Parlama renginizi klanınızın veya adanızın konseptine uygun seçerek uyum yakalayabilirsiniz."
+                      ]
+                  }
+              },
+              {
+                  id: 28,
+                  title: "🛡️ Klan Sistemi",
+                  desc: "Klan kur, seviye atla ve para ödüllü yarışmalara katıl!",
+                  icon: "fa-shield-halved",
+                  tags: ["klan", "clan", "rekabet", "ödül"],
+                  image: "skyblock-klan.jpg",
+                  content: {
+                      giris: "Birlikten kuvvet doğar! Arkadaşlarınızla klan kurarak hem ekstra bonuslar kazanın hem de sunucunun dev rekabetine dahil olun.",
+                      adimlar: [
+                          {
+                              baslik: "🤝 Klan Oluşturma ve Yönetim",
+                              aciklama: "Klan temel komutları:",
+                              maddeler: [
+                                  "/clan create [etiket] : Kendinize ait yeni bir klan oluşturur.",
+                                  "/clan invite [oyuncu] : Güvendiğiniz oyuncuları klanınıza davet eder.",
+                                  "/clan info [etiket] : İstediğiniz bir klanın istatistiklerini ve üyelerini gösterir."
+                              ]
+                          },
+                          {
+                              baslik: "📈 Klan Bonusları",
+                              aciklama: "Klan seviyenizi yükseltmenin avantajları:",
+                              maddeler: [
+                                  "Klan üyeleriyle birlikte tecrübe kazandıkça klan seviyeniz artar.",
+                                  "Yüksek seviyeli klanlar Maden dünyasında ekstra eşya düşürme (drop) bonusu gibi pasif avantajlar kazanır."
+                              ]
+                          },
+                          {
+                              baslik: "🏆 Para Ödüllü Turnuvalar",
+                              aciklama: "Söz sahibi olmak için savaşın:",
+                              maddeler: [
+                                  "Sunucumuzda gerçek para ödüllü 'En Güçlü Klanlar' yarışmaları düzenlenmektedir.",
+                                  "Klanınızı güçlendirerek sıralamada zirveye oynayın.",
+                                  "Yakında eklenecek devasa yeni klan sistemleriyle (Klan Savaşları, Bölgeler vb.) rekabet daha da artacak!"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Klanınıza aktif ve farklı mesleklerde (madenci, çiftçi) oyuncular almak gelişiminizi hızlandırır.",
+                          "Para ödüllü yarışmalar için duyuruları discord üzerinden takip etmeyi unutmayın."
+                      ]
+                  }
+              },
+              {
+                  id: 29,
+                  title: "🗡️ Alet Görünümleri (Tool Skins)",
+                  desc: "Eşyalarının görünümünü efsanevi tasarımlarla değiştir",
+                  icon: "fa-wand-magic-sparkles",
+                  tags: ["kozmetik", "skin", "alet", "kılıç"],
+                  image: "skyblock-toolskins.jpg",
+                  content: {
+                      giris: "Sıradan eşyalardan sıkıldınız mı? Alet Görünümleri sistemi ile silah ve aletlerinizi bambaşka bir seviyeye taşıyın.",
+                      adimlar: [
+                          {
+                              baslik: "🎨 Görünüm Değiştirme",
+                              aciklama: "Aletlerinizi nasıl özelleştirirsiniz:",
+                              maddeler: [
+                                  "/toolskin : Görünüm değiştirme menüsünü açar.",
+                                  "Kılıç, kazma, balta ve küreklerinize özel kozmetik görünümler uygulayabilirsiniz.",
+                                  "Görünümler eşyanın gücünü değiştirmez, sadece harika görünmesini sağlar!"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Görünümler (Skins) savaşlarda veya madende rakiplerinize karşı görsel bir üstünlük ve prestij sağlar."
+                      ]
+                  }
+              },
+              {
+                  id: 30,
+                  title: "💤 AFK Alanı",
+                  desc: "Bilgisayar başında değilken bile kazanmaya devam et!",
+                  icon: "fa-bed",
+                  tags: ["afk", "ödül", "bekleme"],
+                  image: "skyblock-afk.jpg",
+                  content: {
+                      giris: "Oyunda aktif olamadığınız zamanlarda AFK Alanı'na giderek pasif gelir elde edebilirsiniz.",
+                      adimlar: [
+                          {
+                              baslik: "⏳ Nasıl Çalışır?",
+                              aciklama: "AFK bırakarak kazanma:",
+                              maddeler: [
+                                  "/warp afk : Özel bekleme odasına ışınlanırsınız.",
+                                  "Burada geçirdiğiniz her 10 dakikada bir sistem size rastgele ödüller verir.",
+                                  "Ödül havuzunda Para, Mücevher ve Kasa Anahtarları bulunur."
+                              ]
+                          },
+                          {
+                              baslik: "📥 Ödülleri Toplama",
+                              aciklama: "Kazandıklarınızı envantere alma:",
+                              maddeler: [
+                                  "/afk : AFK menüsünü açar.",
+                                  "Biriken tüm ödüllerinizi bu menü üzerinden güvenle toplayabilirsiniz."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Uyurken veya dışarıdayken hesabınızı /warp afk'da bırakarak günde onlarca anahtar kasabilirsiniz."
+                      ]
+                  }
+              },
+              {
+                  id: 31,
+                  title: "🏰 Zindanlar (Yakında)",
+                  desc: "Dalga dalga gelen düşmanlar ve büyük patron savaşı",
+                  icon: "fa-dungeon",
+                  tags: ["zindan", "boss", "pve", "yakında"],
+                  image: "skyblock-zindan.jpg",
+                  content: {
+                      giris: "Büyük bir güncelleme yolda! Takım arkadaşlarınızla omuz omuza savaşacağınız Zindan (Dungeons) sistemi çok yakında aktif olacak.",
+                      adimlar: [
+                          {
+                              baslik: "⚔️ Beklenen Özellikler",
+                              aciklama: "Zindan sisteminde bizi neler bekliyor:",
+                              maddeler: [
+                                  "/dungeons : Belirli saatlerde giriş yapılabilecek özel alan.",
+                                  "Dalgalar (Wave) halinde güçlenerek gelen özel düşmanlar.",
+                                  "Bölüm sonlarında eşsiz yeteneklere sahip güçlü Boss (Patron) savaşları.",
+                                  "Zindanı başarıyla bitiren takımlara özel eşyalar ve büyük ganimetler!"
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Zindanlar aktif olana kadar klanınızı kurun ve arkadaşlarınızla ekipmanlarınızı güçlendirin."
+                      ]
+                  }
+              },
+              {
+                  id: 32,
+                  title: "🎉 Otomatik Etkinlikler",
+                  desc: "Sunucuda aniden başlayan devasa bonuslar!",
+                  icon: "fa-calendar-star",
+                  tags: ["etkinlik", "event", "bonus", "x2"],
+                  image: "skyblock-etkinlikler.jpg",
+                  content: {
+                      giris: "Sunucumuzda belirli aralıklarla otomatik olarak global etkinlikler (Event) başlar. Bu süre zarfında gelişiminizi ikiye katlayabilirsiniz!",
+                      adimlar: [
+                          {
+                              baslik: "🔥 Etkinlik Türleri",
+                              aciklama: "Karşılaşabileceğiniz bonuslar:",
+                              maddeler: [
+                                  "Çift Tecrübe (Double XP): Kazandığınız tüm tecrübe puanları anında iki katına çıkar.",
+                                  "Çift Mağara Düşürme: Madenlerde kazdığınız her bloktan iki kat eşya/maden düşer.",
+                                  "Minyon Güçlendirme: Adanızdaki minyonlar üretim ve çalışma hızlarını ikiye katlar.",
+                                  "Şanslı Mağara: Maden kazarken 'Şans Bloğu' ile karşılaşma ihtimaliniz büyük oranda artar.",
+                                  "İş Güçlendirme: /jobs (Meslekler) üzerinden yaptığınız her eylem size iki kat daha fazla para kazandırır."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Çift Mağara veya Çift Tecrübe etkinliği başladığında adadaki işlerinizi bırakıp doğrudan /warp maden'e koşun!"
+                      ]
+                  }
+              },
+              {
+                  id: 33,
+                  title: "🕊️ Uçuş Sistemleri",
+                  desc: "Global Fly etkinlikleri ve Sihirli Tüy kullanımı",
+                  icon: "fa-feather",
+                  tags: ["fly", "uçuş", "tüy", "globalfly"],
+                  image: "skyblock-fly.jpg",
+                  content: {
+                      giris: "SkyBlock'ta uçmak büyük bir ayrıcalıktır. Ada inşasını kolaylaştırmak için sunucumuzda uçuş yeteneği elde etmenin çeşitli yolları vardır.",
+                      adimlar: [
+                          {
+                              baslik: "🌍 Global Fly (Küresel Uçuş)",
+                              aciklama: "Tüm sunucu oyuncularını uçurun:",
+                              maddeler: [
+                                  "Bu sistem tüm oyuncuların aynı anda belirli bir süre uçabilmesini sağlayan özel bir etkinliktir.",
+                                  "/fly : Uçuş bağış menüsünü açar.",
+                                  "Oyuncular bu havuza para yatırır. Hedeflenen miktar toplandığında Global Fly otomatik başlar ve herkes uçma yetkisi kazanır."
+                              ]
+                          },
+                          {
+                              baslik: "🪶 Sihirli Tüy",
+                              aciklama: "Bireysel uçuş yeteneği:",
+                              maddeler: [
+                                  "Sihirli Tüy, oldukça değerli ve özel bir eşyadır.",
+                                  "Sağ tıklayarak kullandığınızda size tam 30 dakika boyunca uçma (Fly) yeteneği verir.",
+                                  "Büyük yapılar inşa ederken veya adanızı düzenlerken hayat kurtarır."
+                              ]
+                          }
+                      ],
+                      ipuclari: [
+                          "Global fly havuzuna bağış yaparak diğer oyuncularla yardımlaşın; hedef ne kadar çabuk dolarsa o kadar hızlı uçarsınız."
+                      ]
+                  }
+              }
+          ],
+          smp: [
+              {
+                  id: 5,
+                  title: "🌍 İlk Gün Rehberi",
+                  desc: "SMP'de ilk gün yapılması gerekenler",
+                  icon: "fa-sun",
+                  tags: ["başlangıç", "hayatta kalma"],
+                  image: "images/smp-firstday.jpg",
+                  content: {
+                      giris: "SMP'de ilk gün hayatta kalmanın püf noktaları.",
+                      adimlar: [
+                          {
+                              baslik: "Hızlı Başlangıç",
+                              aciklama: "İlk dakikalarda yapılacaklar:",
+                              maddeler: [
+                                  "Ağaç kesme ve tahta",
+                                  "Barınak yapımı",
+                                  "İlk aletler"
+                              ]
+                          },
+                          {
+                              baslik: "Gece Hazırlığı",
+                              aciklama: "Güvenli bir gece geçirmek için:",
+                              maddeler: [
+                                  "Yatak yapımı",
+                                  "Mob önlemleri",
+                                  "Işıklandırma"
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  id: 6,
+                  title: "🏰 Dev Üs Yapımı",
+                  desc: "Profesyonel üs tasarımları ve savunma",
+                  icon: "fa-castle",
+                  tags: ["bina", "üs", "tasarım"],
+                  image: "images/smp-base.jpg",
+                  content: {
+                      giris: "Etkileyici ve güvenli bir üs inşa etmenin incelikleri.",
+                      adimlar: [
+                          {
+                              baslik: "Tasarım",
+                              aciklama: "Üs tasarımı için ipuçları:",
+                              maddeler: [
+                                  "Modern mimari",
+                                  "Ortaçağ tarzı",
+                                  "Yeraltı üsleri"
+                              ]
+                          },
+                          {
+                              baslik: "Güvenlik",
+                              aciklama: "Üs savunma sistemleri:",
+                              maddeler: [
+                                  "Lav tuzakları",
+                                  "Redstone savunmalar",
+                                  "Gizli girişler"
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  id: 7,
+                  title: "⚔️ PvP Taktikleri",
+                  desc: "Oyunculara karşı savaşma teknikleri",
+                  icon: "fa-shield-halved",
+                  tags: ["pvp", "savaş", "kombat"],
+                  image: "images/smp-pvp.jpg",
+                  content: {
+                      giris: "PvP'de başarılı olmanın sırları ve taktikleri.",
+                      adimlar: [
+                          {
+                              baslik: "Temel PvP",
+                              aciklama: "Başlangıç seviyesi PvP:",
+                              maddeler: [
+                                  "Hit timing",
+                                  "Strafe teknikleri",
+                                  "Kritik vuruşlar"
+                              ]
+                          },
+                          {
+                              baslik: "İleri Teknikler",
+                              aciklama: "Profesyonel PvP taktikleri:",
+                              maddeler: [
+                                  "Rod kullanımı",
+                                  "MLG su kovası",
+                                  "Pot PvP"
+                              ]
+                          }
+                      ]
+                  }
+              }
+          ]
+      };
 
-        function selectCategory(category) {
-            currentCategory = category;
 
-            document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
-            document.getElementById(`cat${category.charAt(0).toUpperCase() + category.slice(1)}`).classList.add('active');
+              let currentCategory = 'skyblock';
+              let currentPageId = null;
 
-            const titles = {
-                skyblock: '⛅ SKYBLOCK Wiki',
-                smp: '🌍 SMP Wiki'
-            };
-            document.getElementById('currentCategoryTitle').textContent = titles[category] || 'Wiki';
+              window.onload = function() {
+                  updateWikiGrid();
+              };
 
-            updateWikiGrid();
-        }
+              function selectCategory(category) {
+                  currentCategory = category;
 
-        function updateWikiGrid() {
-            const grid = document.getElementById('wikiGrid');
-            const data = wikiData[currentCategory] || [];
+                  document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+                  document.getElementById(`cat${category.charAt(0).toUpperCase() + category.slice(1)}`).classList.add('active');
 
-            grid.innerHTML = data.map(item => `
-                <div class="wiki-card" onclick="openWikiPage(${item.id})">
-                    <i class="fas ${item.icon}"></i>
-                    <h3>${item.title}</h3>
-                    <p>${item.desc}</p>
-                    <div class="card-tags">
-                        ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
+                  const titles = {
+                      skyblock: '⛅ SKYBLOCK Wiki',
+                      smp: '🌍 SMP Wiki'
+                  };
+                  document.getElementById('currentCategoryTitle').textContent = titles[category] || 'Wiki';
 
-        function openWikiPage(id) {
-            currentPageId = id;
+                  updateWikiGrid();
+              }
 
-            let pageData = null;
-            for (let category in wikiData) {
-                const found = wikiData[category].find(item => item.id === id);
-                if (found) { pageData = found; break; }
-            }
-            if (!pageData) return;
+              function updateWikiGrid() {
+                  const grid = document.getElementById('wikiGrid');
+                  const data = wikiData[currentCategory] || [];
 
-            document.getElementById('modalTitle').textContent = pageData.title;
-            document.getElementById('modalDesc').textContent = pageData.desc;
+                  grid.innerHTML = data.map(item => `
+                      <div class="wiki-card" onclick="openWikiPage(${item.id})">
+                          <i class="fas ${item.icon}"></i>
+                          <h3>${item.title}</h3>
+                          <p>${item.desc}</p>
+                          <div class="card-tags">
+                              ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                          </div>
+                      </div>
+                  `).join('');
+              }
 
-            const modalImage = document.getElementById('modalImage');
-            modalImage.innerHTML = `<img src="${pageData.image || 'images/default-wiki.jpg'}" alt="${pageData.title}"
-                onerror="this.src='https://via.placeholder.com/800x400/4a9eff/ffffff?text=Gorsel+Bulunamadi'">`;
+              function openWikiPage(id) {
+                  currentPageId = id;
 
-            let contentHtml = '';
+                  let pageData = null;
+                  for (let category in wikiData) {
+                      const found = wikiData[category].find(item => item.id === id);
+                      if (found) { pageData = found; break; }
+                  }
+                  if (!pageData) return;
 
-            if (pageData.content) {
-                if (pageData.content.giris) {
-                    contentHtml += `<h2>📋 Giriş</h2><p>${pageData.content.giris}</p>`;
-                }
+                  document.getElementById('modalTitle').textContent = pageData.title;
+                  document.getElementById('modalDesc').textContent = pageData.desc;
 
-                if (pageData.content.adimlar) {
-                    pageData.content.adimlar.forEach(adim => {
-                        contentHtml += `<h2>⚡ ${adim.baslik}</h2>`;
-                        contentHtml += `<p>${adim.aciklama}</p>`;
+                  const modalImage = document.getElementById('modalImage');
+                  modalImage.innerHTML = `<img src="${pageData.image || 'images/default-wiki.jpg'}" alt="${pageData.title}"
+                      onerror="this.src='https://via.placeholder.com/800x400/4a9eff/ffffff?text=Gorsel+Bulunamadi'">`;
 
-                        if (adim.maddeler) {
-                            contentHtml += '<ul>';
-                            adim.maddeler.forEach(madde => contentHtml += `<li>${madde}</li>`);
-                            contentHtml += '</ul>';
-                        }
-                    });
-                }
+                  let contentHtml = '';
 
-                if (pageData.content.ipuclari) {
-                    contentHtml += `<h2>💡 İpuçları</h2><ul>`;
-                    pageData.content.ipuclari.forEach(ipucu => contentHtml += `<li>${ipucu}</li>`);
-                    contentHtml += '</ul>';
-                }
-            }
+                  if (pageData.content) {
+                      if (pageData.content.giris) {
+                          contentHtml += `<h2>📋 Giriş</h2><p>${pageData.content.giris}</p>`;
+                      }
 
-            document.getElementById('modalBody').innerHTML = contentHtml;
-            document.getElementById('modalTags').innerHTML =
-                pageData.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+                      if (pageData.content.adimlar) {
+                          pageData.content.adimlar.forEach(adim => {
+                              contentHtml += `<h2>⚡ ${adim.baslik}</h2>`;
+                              contentHtml += `<p>${adim.aciklama}</p>`;
 
-            document.getElementById('wikiPageModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
+                              if (adim.maddeler) {
+                                  contentHtml += '<ul>';
+                                  adim.maddeler.forEach(madde => contentHtml += `<li>${madde}</li>`);
+                                  contentHtml += '</ul>';
+                              }
+                          });
+                      }
 
-        function closeWikiPage() {
-            document.getElementById('wikiPageModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+                      if (pageData.content.ipuclari) {
+                          contentHtml += `<h2>💡 İpuçları</h2><ul>`;
+                          pageData.content.ipuclari.forEach(ipucu => contentHtml += `<li>${ipucu}</li>`);
+                          contentHtml += '</ul>';
+                      }
+                  }
 
-        // Arama fonksiyonu
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const resultsDiv = document.getElementById('searchResults');
+                  document.getElementById('modalBody').innerHTML = contentHtml;
+                  document.getElementById('modalTags').innerHTML =
+                      pageData.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
 
-            if (searchTerm.length < 2) {
-                resultsDiv.style.display = 'none';
-                return;
-            }
+                  document.getElementById('wikiPageModal').style.display = 'block';
+                  document.body.style.overflow = 'hidden';
+              }
 
-            let results = [];
+              function closeWikiPage() {
+                  document.getElementById('wikiPageModal').style.display = 'none';
+                  document.body.style.overflow = 'auto';
+              }
 
-            for (let category in wikiData) {
-                wikiData[category].forEach(item => {
-                    if (item.title.toLowerCase().includes(searchTerm) ||
-                        item.desc.toLowerCase().includes(searchTerm) ||
-                        item.tags.some(tag => tag.includes(searchTerm))) {
-                        results.push({ ...item, category });
-                    }
-                });
-            }
+              // Arama fonksiyonu
+              document.getElementById('searchInput').addEventListener('input', function(e) {
+                  const searchTerm = e.target.value.toLowerCase();
+                  const resultsDiv = document.getElementById('searchResults');
 
-            if (results.length > 0) {
-                resultsDiv.innerHTML = results.map(result => `
-                    <div class="search-item" onclick="goToResult(${result.id})">
-                        <i class="fas ${result.icon}"></i>
-                        <strong>${result.title}</strong>
-                        <span style="color: #4a9eff; font-size: 0.8rem;">(${result.category})</span>
-                        <br>
-                        <small>${result.desc.substring(0, 50)}...</small>
-                    </div>
-                `).join('');
-                resultsDiv.style.display = 'block';
-            } else {
-                resultsDiv.innerHTML = '<div class="search-item" style="color: #999;">Sonuç bulunamadı 😢</div>';
-                resultsDiv.style.display = 'block';
-            }
-        });
+                  if (searchTerm.length < 2) {
+                      resultsDiv.style.display = 'none';
+                      return;
+                  }
 
-        function goToResult(id) {
-            for (let category in wikiData) {
-                const found = wikiData[category].find(item => item.id === id);
-                if (found) { selectCategory(category); break; }
-            }
+                  let results = [];
 
-            document.getElementById('searchResults').style.display = 'none';
-            document.getElementById('searchInput').value = '';
-            openWikiPage(id);
-        }
+                  for (let category in wikiData) {
+                      wikiData[category].forEach(item => {
+                          if (item.title.toLowerCase().includes(searchTerm) ||
+                              item.desc.toLowerCase().includes(searchTerm) ||
+                              item.tags.some(tag => tag.includes(searchTerm))) {
+                              results.push({ ...item, category });
+                          }
+                      });
+                  }
 
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-box')) {
-                document.getElementById('searchResults').style.display = 'none';
-            }
-        });
+                  if (results.length > 0) {
+                      resultsDiv.innerHTML = results.map(result => `
+                          <div class="search-item" onclick="goToResult(${result.id})">
+                              <i class="fas ${result.icon}"></i>
+                              <strong>${result.title}</strong>
+                              <span style="color: #4a9eff; font-size: 0.8rem;">(${result.category})</span>
+                              <br>
+                              <small>${result.desc.substring(0, 50)}...</small>
+                          </div>
+                      `).join('');
+                      resultsDiv.style.display = 'block';
+                  } else {
+                      resultsDiv.innerHTML = '<div class="search-item" style="color: #999;">Sonuç bulunamadı 😢</div>';
+                      resultsDiv.style.display = 'block';
+                  }
+              });
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeWikiPage();
-        });
+              function goToResult(id) {
+                  for (let category in wikiData) {
+                      const found = wikiData[category].find(item => item.id === id);
+                      if (found) { selectCategory(category); break; }
+                  }
 
-        document.getElementById('wikiPageModal').addEventListener('click', function(e) {
-            if (e.target === this) closeWikiPage();
-        });
+                  document.getElementById('searchResults').style.display = 'none';
+                  document.getElementById('searchInput').value = '';
+                  openWikiPage(id);
+              }
+
+              document.addEventListener('click', function(e) {
+                  if (!e.target.closest('.search-box')) {
+                      document.getElementById('searchResults').style.display = 'none';
+                  }
+              });
+
+              document.addEventListener('keydown', function(e) {
+                  if (e.key === 'Escape') closeWikiPage();
+              });
+
+              document.getElementById('wikiPageModal').addEventListener('click', function(e) {
+                  if (e.target === this) closeWikiPage();
+              });
     </script>
-</body>
-
+  </body>
 </html>
-

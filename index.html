@@ -1,4 +1,615 @@
-// Wiki Veritabanı
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>⚡ MARDİUMMC WIKI | Minecraft</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        min-height: 100vh;
+        color: white;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid #4a9eff;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        gap: 20px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .logo img {
+        height: 50px;
+        width: auto;
+        border-radius: 10px;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+
+      .logo img:hover {
+        transform: scale(1.1);
+      }
+
+      .search-box {
+        flex: 1;
+        max-width: 700px;
+        position: relative;
+        margin-left: auto;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 12px 20px;
+        border-radius: 30px;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 1rem;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(74, 158, 255, 0.3);
+        transition: all 0.3s;
+      }
+
+      .search-box input:focus {
+        outline: none;
+        border-color: #4a9eff;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
+      }
+
+      .search-box i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #4a9eff;
+      }
+
+      /* Ana Kapsayıcı */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Kategori Seçici */
+      .category-selector {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 30px 0;
+        text-align: center;
+        border: 1px solid rgba(74, 158, 255, 0.2);
+      }
+
+      .category-title {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        background: linear-gradient(45deg, #4a9eff, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .category-cards {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 30px 0;
+      }
+
+      .category-card {
+        background: linear-gradient(
+          145deg,
+          rgba(74, 158, 255, 0.1),
+          rgba(168, 85, 247, 0.1)
+        );
+        border-radius: 15px;
+        padding: 30px 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .category-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .category-card:hover::before {
+        left: 100%;
+      }
+
+      .category-card:hover {
+        transform: translateY(-10px);
+        border-color: #4a9eff;
+        box-shadow: 0 10px 30px rgba(74, 158, 255, 0.3);
+      }
+
+      .category-card.active {
+        border-color: #4a9eff;
+        background: linear-gradient(
+          145deg,
+          rgba(74, 158, 255, 0.2),
+          rgba(168, 85, 247, 0.2)
+        );
+      }
+
+      .category-card i {
+        font-size: 4rem;
+        margin-bottom: 15px;
+        color: #4a9eff;
+      }
+
+      .category-card h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .category-card p {
+        color: #ccc;
+      }
+
+      .badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #4a9eff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+      }
+
+      /* İçerik Alanı */
+      .content-area {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px 0;
+        border: 1px solid rgba(74, 158, 255, 0.2);
+        min-height: 400px;
+      }
+
+      .content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .content-header h1 {
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #fff, #4a9eff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Wiki Grid */
+      .wiki-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .wiki-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.3s;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+
+      .wiki-card:hover {
+        border-color: #4a9eff;
+        transform: translateY(-5px);
+        background: rgba(74, 158, 255, 0.1);
+      }
+
+      .wiki-card i {
+        font-size: 2rem;
+        color: #4a9eff;
+        margin-bottom: 10px;
+      }
+
+      .wiki-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+      }
+
+      .wiki-card p {
+        color: #aaa;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .card-tags {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        background: rgba(74, 158, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(74, 158, 255, 0.3);
+      }
+
+      /* Wiki Sayfası (Modal) */
+      .wiki-page-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        overflow-y: auto;
+        padding: 50px;
+      }
+
+      .wiki-page-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        border-radius: 30px;
+        padding: 40px;
+        border: 2px solid #4a9eff;
+        position: relative;
+        animation: slideIn 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        border: 1px solid #4a9eff;
+      }
+
+      .close-modal:hover {
+        background: #4a9eff;
+        transform: rotate(90deg);
+      }
+
+      .wiki-page-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+      }
+
+      .wiki-page-header h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #4a9eff, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .wiki-page-header p {
+        font-size: 1.2rem;
+        color: #ccc;
+      }
+
+      .wiki-page-image {
+        margin: 30px 0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(74, 158, 255, 0.3);
+      }
+
+      .wiki-page-image img {
+        max-width: 100%;
+        max-height: 500px;
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(74, 158, 255, 0.3);
+      }
+
+      .wiki-page-body {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #ddd;
+        margin: 30px 0;
+      }
+
+      .wiki-page-body h2 {
+        color: #4a9eff;
+        margin: 20px 0 10px;
+        font-size: 1.8rem;
+      }
+
+      .wiki-page-body ul,
+      .wiki-page-body ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .wiki-page-body li {
+        margin: 5px 0;
+      }
+
+      .wiki-page-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(74, 158, 255, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .wiki-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .wiki-stats {
+        color: #4a9eff;
+        font-size: 0.9rem;
+      }
+
+      .wiki-stats i {
+        margin-right: 5px;
+      }
+
+      /* Arama Sonuçları */
+      .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        margin-top: 5px;
+        max-height: 400px;
+        overflow-y: auto;
+        display: none;
+        z-index: 1000;
+        border: 1px solid #4a9eff;
+      }
+
+      .search-item {
+        padding: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .search-item:hover {
+        background: rgba(74, 158, 255, 0.2);
+      }
+
+      .search-item i {
+        margin-right: 10px;
+        color: #4a9eff;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          gap: 15px;
+          padding: 1rem;
+        }
+
+        .search-box {
+          width: 100%;
+          max-width: none;
+          margin-left: 0;
+        }
+
+        .category-card {
+          padding: 20px 30px;
+        }
+
+        .wiki-page-modal {
+          padding: 20px;
+        }
+
+        .wiki-page-content {
+          padding: 20px;
+        }
+
+        .wiki-page-header h1 {
+          font-size: 2rem;
+        }
+      }
+
+      /* Animasyonlar */
+      @keyframes glow {
+        0% {
+          box-shadow: 0 0 5px #4a9eff;
+        }
+        50% {
+          box-shadow: 0 0 20px #4a9eff;
+        }
+        100% {
+          box-shadow: 0 0 5px #4a9eff;
+        }
+      }
+
+      .glow {
+        animation: glow 2s infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          src="sunucum-logo.png"
+          alt="Sunucum Logo"
+          onerror="
+            this.src = 'https://via.placeholder.com/50x50/4a9eff/ffffff?text=S'
+          "
+        />
+      </div>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Wiki'de ara... (Örn: Skyblock, SMP, Boss)"
+        />
+        <i class="fas fa-search"></i>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="category-selector">
+        <h1 class="category-title">🌟 Hangi Wiki'yi Görmek İstersin?</h1>
+        <div class="category-cards">
+          <div
+            class="category-card active"
+            onclick="selectCategory('skyblock')"
+            id="catSkyblock"
+          >
+            <div class="badge">POPÜLER</div>
+            <i class="fas fa-cloud"></i>
+            <h2>SKYBLOCK</h2>
+            <p>Gökyüzünde hayatta kal</p>
+          </div>
+          <div
+            class="category-card"
+            onclick="selectCategory('smp')"
+            id="catSmp"
+          >
+            <i class="fas fa-tree"></i>
+            <h2>SMP</h2>
+            <p>Hayatta kalma dünyası</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="content-header">
+          <h1 id="currentCategoryTitle">⛅ SKYBLOCK Wiki</h1>
+        </div>
+
+        <div class="wiki-grid" id="wikiGrid"></div>
+      </div>
+    </div>
+
+    <div class="wiki-page-modal" id="wikiPageModal">
+      <div class="wiki-page-content">
+        <button class="close-modal" onclick="closeWikiPage()">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="wiki-page-header">
+          <h1 id="modalTitle">Başlık</h1>
+          <p id="modalDesc">Açıklama</p>
+        </div>
+
+        <div class="wiki-page-image" id="modalImage">
+          <img
+            src="images/default-wiki.jpg"
+            alt="Wiki Görseli"
+            onerror="
+              this.src =
+                'https://via.placeholder.com/800x400/4a9eff/ffffff?text=Gorsel+Bulunamadi'
+            "
+          />
+        </div>
+
+        <div class="wiki-page-body" id="modalBody"></div>
+
+        <div class="wiki-page-footer">
+          <div class="wiki-tags" id="modalTags"></div>
+          <div class="wiki-stats">
+            <i class="fas fa-eye"></i> 1.2k görüntülenme
+            <i class="fas fa-thumbs-up" style="margin-left: 15px"></i> 45 beğeni
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Wiki Veritabanı
       let wikiData = {
           skyblock: [
               {
@@ -1317,3 +1928,165 @@
               }
           ]
       };
+
+      let currentCategory = 'skyblock';
+      let currentPageId = null;
+
+      window.onload = function() {
+          updateWikiGrid();
+      };
+
+      function selectCategory(category) {
+          currentCategory = category;
+
+          document.querySelectorAll('.category-card').forEach(card => card.classList.remove('active'));
+          document.getElementById(`cat${category.charAt(0).toUpperCase() + category.slice(1)}`).classList.add('active');
+
+          const titles = {
+              skyblock: '⛅ SKYBLOCK Wiki',
+              smp: '🌍 SMP Wiki'
+          };
+          document.getElementById('currentCategoryTitle').textContent = titles[category] || 'Wiki';
+
+          updateWikiGrid();
+      }
+
+      function updateWikiGrid() {
+          const grid = document.getElementById('wikiGrid');
+          const data = wikiData[currentCategory] || [];
+
+          grid.innerHTML = data.map(item => `
+              <div class="wiki-card" onclick="openWikiPage(${item.id})">
+                  <i class="fas ${item.icon}"></i>
+                  <h3>${item.title}</h3>
+                  <p>${item.desc}</p>
+                  <div class="card-tags">
+                      ${item.tags.map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                  </div>
+              </div>
+          `).join('');
+      }
+
+      function openWikiPage(id) {
+          currentPageId = id;
+
+          let pageData = null;
+          for (let category in wikiData) {
+              const found = wikiData[category].find(item => item.id === id);
+              if (found) { pageData = found; break; }
+          }
+          if (!pageData) return;
+
+          document.getElementById('modalTitle').textContent = pageData.title;
+          document.getElementById('modalDesc').textContent = pageData.desc;
+
+          const modalImage = document.getElementById('modalImage');
+          modalImage.innerHTML = `<img src="${pageData.image || 'images/default-wiki.jpg'}" alt="${pageData.title}"
+              onerror="this.src='https://via.placeholder.com/800x400/4a9eff/ffffff?text=Gorsel+Bulunamadi'">`;
+
+          let contentHtml = '';
+
+          if (pageData.content) {
+              if (pageData.content.giris) {
+                  contentHtml += `<h2>📋 Giriş</h2><p>${pageData.content.giris}</p>`;
+              }
+
+              if (pageData.content.adimlar) {
+                  pageData.content.adimlar.forEach(adim => {
+                      contentHtml += `<h2>⚡ ${adim.baslik}</h2>`;
+                      contentHtml += `<p>${adim.aciklama}</p>`;
+
+                      if (adim.maddeler) {
+                          contentHtml += '<ul>';
+                          adim.maddeler.forEach(madde => contentHtml += `<li>${madde}</li>`);
+                          contentHtml += '</ul>';
+                      }
+                  });
+              }
+
+              if (pageData.content.ipuclari) {
+                  contentHtml += `<h2>💡 İpuçları</h2><ul>`;
+                  pageData.content.ipuclari.forEach(ipucu => contentHtml += `<li>${ipucu}</li>`);
+                  contentHtml += '</ul>';
+              }
+          }
+
+          document.getElementById('modalBody').innerHTML = contentHtml;
+          document.getElementById('modalTags').innerHTML =
+              pageData.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+
+          document.getElementById('wikiPageModal').style.display = 'block';
+          document.body.style.overflow = 'hidden';
+      }
+
+      function closeWikiPage() {
+          document.getElementById('wikiPageModal').style.display = 'none';
+          document.body.style.overflow = 'auto';
+      }
+
+      // Arama fonksiyonu
+      document.getElementById('searchInput').addEventListener('input', function(e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const resultsDiv = document.getElementById('searchResults');
+
+          if (searchTerm.length < 2) {
+              resultsDiv.style.display = 'none';
+              return;
+          }
+
+          let results = [];
+
+          for (let category in wikiData) {
+              wikiData[category].forEach(item => {
+                  if (item.title.toLowerCase().includes(searchTerm) ||
+                      item.desc.toLowerCase().includes(searchTerm) ||
+                      item.tags.some(tag => tag.includes(searchTerm))) {
+                      results.push({ ...item, category });
+                  }
+              });
+          }
+
+          if (results.length > 0) {
+              resultsDiv.innerHTML = results.map(result => `
+                  <div class="search-item" onclick="goToResult(${result.id})">
+                      <i class="fas ${result.icon}"></i>
+                      <strong>${result.title}</strong>
+                      <span style="color: #4a9eff; font-size: 0.8rem;">(${result.category})</span>
+                      <br>
+                      <small>${result.desc.substring(0, 50)}...</small>
+                  </div>
+              `).join('');
+              resultsDiv.style.display = 'block';
+          } else {
+              resultsDiv.innerHTML = '<div class="search-item" style="color: #999;">Sonuç bulunamadı 😢</div>';
+              resultsDiv.style.display = 'block';
+          }
+      });
+
+      function goToResult(id) {
+          for (let category in wikiData) {
+              const found = wikiData[category].find(item => item.id === id);
+              if (found) { selectCategory(category); break; }
+          }
+
+          document.getElementById('searchResults').style.display = 'none';
+          document.getElementById('searchInput').value = '';
+          openWikiPage(id);
+      }
+
+      document.addEventListener('click', function(e) {
+          if (!e.target.closest('.search-box')) {
+              document.getElementById('searchResults').style.display = 'none';
+          }
+      });
+
+      document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') closeWikiPage();
+      });
+
+      document.getElementById('wikiPageModal').addEventListener('click', function(e) {
+          if (e.target === this) closeWikiPage();
+      });
+    </script>
+  </body>
+</html>

@@ -40,6 +40,14 @@
         top: 0;
         z-index: 1000;
         gap: 20px;
+        flex-wrap: wrap; /* Mobilde alt alta inebilmesi için */
+      }
+
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
       }
 
       .logo {
@@ -60,6 +68,28 @@
 
       .logo img:hover {
         transform: scale(1.1);
+      }
+
+      /* Kurallar Butonu */
+      .rules-nav-btn {
+        background: linear-gradient(45deg, #a855f7, #4a9eff);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+      }
+
+      .rules-nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(168, 85, 247, 0.5);
       }
 
       .search-box {
@@ -145,6 +175,9 @@
         border: 2px solid transparent;
         position: relative;
         overflow: hidden;
+        flex: 1;
+        min-width: 250px;
+        max-width: 350px;
       }
 
       .category-card::before {
@@ -238,7 +271,7 @@
       /* Wiki Grid */
       .wiki-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
         margin-top: 20px;
       }
@@ -250,6 +283,8 @@
         transition: all 0.3s;
         border: 1px solid transparent;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
       }
 
       .wiki-card:hover {
@@ -273,6 +308,7 @@
         color: #aaa;
         font-size: 0.9rem;
         line-height: 1.5;
+        flex-grow: 1;
       }
 
       .card-tags {
@@ -290,8 +326,8 @@
         border: 1px solid rgba(74, 158, 255, 0.3);
       }
 
-      /* Wiki Sayfası (Modal) */
-      .wiki-page-modal {
+      /* Modal Ortak Özellikleri (Kurallar ve Wiki için) */
+      .modal-overlay {
         display: none;
         position: fixed;
         top: 0;
@@ -302,12 +338,12 @@
         backdrop-filter: blur(10px);
         z-index: 2000;
         overflow-y: auto;
-        padding: 50px;
+        padding: 20px;
       }
 
-      .wiki-page-content {
+      .modal-content-box {
         max-width: 1200px;
-        margin: 0 auto;
+        margin: 20px auto;
         background: linear-gradient(135deg, #1a1a2e, #16213e);
         border-radius: 30px;
         padding: 40px;
@@ -317,14 +353,8 @@
       }
 
       @keyframes slideIn {
-        from {
-          transform: translateY(-50px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
       }
 
       .close-modal {
@@ -344,6 +374,7 @@
         justify-content: center;
         transition: 0.3s;
         border: 1px solid #4a9eff;
+        z-index: 10;
       }
 
       .close-modal:hover {
@@ -351,6 +382,7 @@
         transform: rotate(90deg);
       }
 
+      /* Wiki Sayfası İçerikleri */
       .wiki-page-header {
         text-align: center;
         margin-bottom: 30px;
@@ -386,6 +418,7 @@
         max-height: 500px;
         border-radius: 15px;
         box-shadow: 0 0 30px rgba(74, 158, 255, 0.3);
+        object-fit: cover;
       }
 
       .wiki-page-body {
@@ -418,6 +451,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
       }
 
       .wiki-tags {
@@ -433,6 +468,100 @@
 
       .wiki-stats i {
         margin-right: 5px;
+      }
+
+      /* Kurallar Modal Özel Stilleri */
+      .rules-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      
+      .rules-header h1 {
+        font-size: 3rem;
+        background: linear-gradient(45deg, #f87171, #facc15);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .rules-header p {
+        color: #ccc;
+        font-size: 1.1rem;
+      }
+
+      .rule-section {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        transition: transform 0.3s;
+      }
+
+      .rule-section:hover {
+        transform: translateX(10px);
+        border-color: #a855f7;
+        background: rgba(168, 85, 247, 0.05);
+      }
+
+      .rule-section h2 {
+        color: #a855f7;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+        padding-bottom: 10px;
+      }
+
+      .rule-section ul {
+        list-style: none;
+      }
+
+      .rule-section ul li {
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+        line-height: 1.6;
+        color: #ddd;
+      }
+
+      .rule-section ul li::before {
+        content: "👉";
+        position: absolute;
+        left: 0;
+        top: 2px;
+        font-size: 0.9rem;
+      }
+
+      .accept-btn-container {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .accept-rules-btn {
+        background: linear-gradient(45deg, #10b981, #059669);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .accept-rules-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.5);
       }
 
       /* Arama Sonuçları */
@@ -468,12 +597,32 @@
         color: #4a9eff;
       }
 
-      /* Responsive */
-      @media (max-width: 768px) {
+      /* Mobilde Kaydırma Çubuğu Güzelleştirme */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1a1a2e; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4a9eff; 
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a855f7; 
+      }
+
+      /* Responsive İyileştirmeler */
+      @media (max-width: 900px) {
         .navbar {
           flex-direction: column;
           gap: 15px;
-          padding: 1rem;
+          padding: 15px;
+        }
+
+        .navbar-left {
+          width: 100%;
+          justify-content: space-between;
         }
 
         .search-box {
@@ -481,35 +630,77 @@
           max-width: none;
           margin-left: 0;
         }
+      }
+
+      @media (max-width: 768px) {
+        .category-cards {
+          flex-direction: column;
+        }
 
         .category-card {
-          padding: 20px 30px;
-        }
-
-        .wiki-page-modal {
+          width: 100%;
+          max-width: none;
           padding: 20px;
         }
 
-        .wiki-page-content {
-          padding: 20px;
+        .modal-content-box {
+          padding: 25px 15px;
+          margin: 10px auto;
         }
 
-        .wiki-page-header h1 {
+        .close-modal {
+          top: 10px;
+          right: 10px;
+          width: 40px;
+          height: 40px;
+          font-size: 1.5rem;
+        }
+
+        .wiki-page-header h1, .rules-header h1 {
           font-size: 2rem;
+          margin-top: 20px;
+        }
+
+        .content-header {
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+        }
+
+        .content-header h1 {
+          font-size: 2rem;
+        }
+
+        .rule-section {
+          padding: 15px;
+        }
+        
+        .rule-section h2 {
+          font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .wiki-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .rules-nav-btn {
+          padding: 8px 12px;
+          font-size: 0.85rem;
+        }
+
+        .accept-rules-btn {
+          width: 100%;
+          justify-content: center;
         }
       }
 
       /* Animasyonlar */
       @keyframes glow {
-        0% {
-          box-shadow: 0 0 5px #4a9eff;
-        }
-        50% {
-          box-shadow: 0 0 20px #4a9eff;
-        }
-        100% {
-          box-shadow: 0 0 5px #4a9eff;
-        }
+        0% { box-shadow: 0 0 5px #4a9eff; }
+        50% { box-shadow: 0 0 20px #4a9eff; }
+        100% { box-shadow: 0 0 5px #4a9eff; }
       }
 
       .glow {
@@ -519,14 +710,19 @@
   </head>
   <body>
     <nav class="navbar">
-      <div class="logo">
-        <img
-          src="sunucum-logo.png"
-          alt="Sunucum Logo"
-          onerror="
-            this.src = 'https://via.placeholder.com/50x50/4a9eff/ffffff?text=S'
-          "
-        />
+      <div class="navbar-left">
+        <div class="logo">
+          <img
+            src="sunucum-logo.png"
+            alt="Sunucum Logo"
+            onerror="
+              this.src = 'https://via.placeholder.com/50x50/4a9eff/ffffff?text=S'
+            "
+          />
+        </div>
+        <button class="rules-nav-btn" onclick="openRulesModal(false)">
+          <i class="fas fa-scroll"></i> Sunucu Kuralları
+        </button>
       </div>
 
       <div class="search-box">
@@ -575,8 +771,8 @@
       </div>
     </div>
 
-    <div class="wiki-page-modal" id="wikiPageModal">
-      <div class="wiki-page-content">
+    <div class="modal-overlay" id="wikiPageModal">
+      <div class="modal-content-box">
         <button class="close-modal" onclick="closeWikiPage()">
           <i class="fas fa-times"></i>
         </button>
@@ -608,7 +804,135 @@
         </div>
       </div>
     </div>
+
+    <div class="modal-overlay" id="rulesModal">
+      <div class="modal-content-box" style="border-color: #a855f7;">
+        <button class="close-modal" id="rulesCloseBtn" onclick="closeRulesModal()">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="rules-header">
+          <h1>📜 Sunucu Kuralları</h1>
+          <p>Lütfen sunucuda oynamadan önce kuralları dikkatlice okuyun.</p>
+        </div>
+
+        <div class="rules-body">
+          <div class="rule-section">
+            <h2><i class="fas fa-comments"></i> SOHBET KURALLARI</h2>
+            <ul>
+              <li>Sohbette spam ve büyük harf kullanımına dikkat edilmelidir.</li>
+              <li>Sansürlü küfür dahil olmak üzere küfürlü dil veya argo kullanmaktan kaçının.</li>
+              <li>Irkçılık, cinsiyetçilik, din ve benzeri gibi hiçbir ayrımcılıkta bulunmayın.</li>
+              <li>Gizliliğe saygı duyun ve kişisel bilgileri saklı tutun.</li>
+              <li>Kendiniz veya diğer oyuncular hakkında hiçbir kişisel bilgi paylaşmayın.</li>
+              <li>Kimseden kişisel bilgilerini paylaşmasını talep etmeyin veya baskı yapmayın.</li>
+              <li>Sunucuda sadece Türkçe ve İngilizce dili kullanılacaktır.</li>
+            </ul>
+          </div>
+
+          <div class="rule-section">
+            <h2><i class="fas fa-ban"></i> HİLE KURALLARI</h2>
+            <ul>
+              <li>Sunucuda hile, otomatik program kullanımı kesinlikle yasaktır.</li>
+              <li>Hile ile takım olmak, iş birliği yapmak yasaktır.</li>
+              <li>Hile gördüğünüzde yetkililere bildirmek zorunludur.</li>
+              <li>Herhangi bir hile, ban sebebidir.</li>
+              <li>Herhangi bir üçüncü parti istemci, mod veya oyunu değiştiren, avantaj sağlayan hile yazılımı kullanmayın.</li>
+            </ul>
+          </div>
+
+          <div class="rule-section">
+            <h2><i class="fas fa-bug"></i> HATA ve SUNUCU AÇIĞI KURALLARI</h2>
+            <ul>
+              <li>Sunucu açıklarını kötüye kullanmak yasaktır.</li>
+              <li>Sunucu açığı bulursanız yetkililere söylemek zorunludur.</li>
+              <li>Diğer oyuncuların Minecraft istemcisini çökertmek veya performansını düşürmek için herhangi bir yöntem kullanmayın.</li>
+              <li>Sunucuları çökertmek, sunucuların performansını düşürmek veya sunuculara zarar vermek için herhangi bir yöntem kullanmayın.</li>
+            </ul>
+          </div>
+
+          <div class="rule-section">
+            <h2><i class="fas fa-user-shield"></i> YETKİLİLERE SAYGI KURALLARI</h2>
+            <ul>
+              <li>Yetkililere karşı saygılı olun.</li>
+              <li>Yetkililerin verdiği talimatlara ve komutlara uygun davranın.</li>
+              <li>Yetkililerle özel olarak DM'den ceza itirazı, oyuncu şikayeti veya sunucu desteği ile ilgili diğer konular için iletişime geçin.</li>
+              <li>Bir ceza için oluşturduğunuz itiraz daha önce reddedildiyse aynı ceza için tekrar itiraz oluşturmayın.</li>
+              <li>Yetkililere biletinizin veya raporunuzun ne zaman inceleneceğini sormak için mesaj atmayın veya onları etiketlemeyin.</li>
+              <li>Kuralları ihlal eden oyuncuları Discord sunucumuzda veya oyun içinden bildirin.</li>
+            </ul>
+          </div>
+
+          <div class="rule-section">
+            <h2><i class="fas fa-book"></i> GENEL KURALLAR</h2>
+            <ul>
+              <li>Uygunsuz konuları tartışmaktan veya uygunsuz/saldırgan mizah yapmaktan kaçının.</li>
+              <li>Yanıltıcı bilgi paylaşmayın.</li>
+              <li>Uygunsuz veya saldırgan skinler, kullanıcı adları kullanmayın.</li>
+              <li>Uygunsuz veya saldırgan semboller içeren yapılar veya çizimler oluşturmayın.</li>
+              <li>Sunucular, sosyal medya hesapları, Discord sunucuları veya kişisel reklam yapmak yasaktır. (Kendi YouTube/Twitch kanalınız gibi içerikler hariç olabilir, ancak bunun için de aşırıya kaçmamak ve sunucu kurallarına uygun içerik üretmek önemlidir.)</li>
+              <li>Sunucuda herhangi bir link paylaşımı yapmak yasaktır. (Güvenilir ve yetkililerce onaylanmış linkler istisna olabilir.)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="accept-btn-container" id="acceptRulesContainer">
+          <button class="accept-rules-btn" onclick="acceptRules()">
+            <i class="fas fa-check-circle"></i> Okudum ve Kabul Ediyorum
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script>
+      // Kural Kontrolü (LocalStorage)
+      let rulesAccepted = localStorage.getItem('mardiumRulesAccepted');
+      
+      // Sayfa yüklendiğinde kuralları kontrol et ve wikiyi başlat
+      window.onload = function() {
+          if (!rulesAccepted) {
+              // İlk defa giriyorsa zorunlu olarak kuralları aç
+              openRulesModal(true);
+          }
+          // Arka planda wikiyi her halükarda yükle
+          updateWikiGrid();
+      };
+
+      // Kurallar Modalını Açma (forced = true ise çarpı butonu gizlenir)
+      function openRulesModal(forced) {
+          const modal = document.getElementById('rulesModal');
+          const closeBtn = document.getElementById('rulesCloseBtn');
+          const acceptContainer = document.getElementById('acceptRulesContainer');
+
+          modal.style.display = 'block';
+          document.body.style.overflow = 'hidden';
+
+          if (forced) {
+              closeBtn.style.display = 'none';
+              acceptContainer.style.display = 'block';
+          } else {
+              closeBtn.style.display = 'flex';
+              // Önceden kabul edildiyse tekrar "Kabul Ediyorum" butonunu göstermeye gerek yok
+              acceptContainer.style.display = rulesAccepted ? 'none' : 'block';
+          }
+      }
+
+      // Kuralları Kabul Etme
+      function acceptRules() {
+          localStorage.setItem('mardiumRulesAccepted', 'true');
+          rulesAccepted = true;
+          closeRulesModal();
+      }
+
+      // Kurallar Modalını Kapatma
+      function closeRulesModal() {
+          // Eğer zorunlu moddaysa (kabul edilmediyse) kapanmasını engelle
+          if (!rulesAccepted) return; 
+          
+          document.getElementById('rulesModal').style.display = 'none';
+          document.body.style.overflow = 'auto';
+      }
+
       // Wiki Veritabanı
       let wikiData = {
           skyblock: [
@@ -1932,10 +2256,6 @@
       let currentCategory = 'skyblock';
       let currentPageId = null;
 
-      window.onload = function() {
-          updateWikiGrid();
-      };
-
       function selectCategory(category) {
           currentCategory = category;
 
@@ -2081,11 +2401,18 @@
       });
 
       document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') closeWikiPage();
+          if (e.key === 'Escape') {
+              closeWikiPage();
+              if (rulesAccepted) closeRulesModal();
+          }
       });
 
       document.getElementById('wikiPageModal').addEventListener('click', function(e) {
           if (e.target === this) closeWikiPage();
+      });
+
+      document.getElementById('rulesModal').addEventListener('click', function(e) {
+          if (e.target === this && rulesAccepted) closeRulesModal();
       });
     </script>
   </body>
